@@ -1,4 +1,4 @@
-# 11/06/2015
+# 10/06/2015
 # Hades.y2k
 # GPL <2.0>
 # You can report me for bugs
@@ -37,13 +37,47 @@ END = bcolors.ENDC
 
 class banner():
     print RED + "\t\t________________________________________" + END
-    print RED + "\t\t------ " + END + WHITE + "SQLi Vulnerable Scanner " + END + RED +"---------" + END
+    print RED + "\t\t---- " + END + WHITE + "SQLi Vulnerable Scanner v2.0 " + END + RED +"------" + END
     print RED + "\t\t-------------------------- " + END + WHITE + "Hades.y2k " + END + RED +"---" + END
     print RED + "\t\t________________________________________" + END
 
+class netorlocal():
+    def __init__(self):
+        self.askornot()
+
+    def askornot(self):
+        global readfile
+        print YELLOW + "\n[!] " + END + WHITE + "You can scan vulnerables from local file or with Google Dorks."
+        askusr = raw_input(YELLOW + "[!] " + END + WHITE + "From Local or Net [local/net]: ")
+        if askusr == 'local':
+            print WHITE + "\nThis is your files in current directory." + END
+            os.system('pwd')
+            os.system('ls')
+            try:
+                filename = raw_input(YELLOW + "[!] " + END + WHITE + "Please Enter file name: " + END)
+                openfile = open(filename, 'r')
+                readfile = openfile.read()
+                openfile.close()
+            except KeyboardInterrupt:
+                print RED + "\n[!] " + END + WHITE + "Process Interrupted." + END
+                print WHITE + "Exiting..." + END
+                time.sleep(1)
+                sys.exit()
+            except:
+                print RED + "\n[!] " + END + WHITE + "File does not exist." + END
+                print WHITE + "Exiting..." + END
+                time.sleep(1)
+                sys.exit()
+        elif askusr == 'net':
+            pydorker.main()
+            openfile = open("sites.txt", 'r')
+            readfile = openfile.read()
+            openfile.close()
+
+
 class sqlscan():
     def __init__(self):
-        self.askfile()
+        self.readfile()
         self.urlreq(filels)
         self.printvuln()
 
@@ -53,10 +87,10 @@ class sqlscan():
         print RED + "\t\t------------------------------------" + END
         print WHITE + "\t\t            Exiting....\n\n" + END
 
-    def askfile(self):
-        openfile = open("googled.txt", 'r')
-        readfile = openfile.read()
-        openfile.close()
+    def readfile(self):
+        #openfile = open("sites.txt", 'r')
+        #readfile = openfile.read()
+        #openfile.close()
 
         filelist = readfile.split('\n')
         if '' in filelist:
@@ -428,7 +462,7 @@ if __name__ == "__main__":
         # many error message when KeyboardInterrupt raised.
         try:
             banner()
-            pydorker.main()
+            netorlocal()
             sqlscan()
         except KeyboardInterrupt:
             os.system('clear')
