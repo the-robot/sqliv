@@ -1,8 +1,7 @@
-# 10/06/2015
+# 11/06/2015
 # Hades.y2k
 # GPL <2.0>
 # You can report me for bugs
-# pydorker is originally written by Xero.
 
 import pydorker
 import os, sys, re, urllib2, time, random
