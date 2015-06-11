@@ -36,7 +36,7 @@ END = bcolors.ENDC
 
 class banner():
     print RED + "\t\t________________________________________" + END
-    print RED + "\t\t------- " + END + WHITE + "Automated SQLi v1.0 " + END + RED +"------------" + END
+    print RED + "\t\t------ " + END + WHITE + "SQLi Vulnerable Scanner " + END + RED +"---------" + END
     print RED + "\t\t-------------------------- " + END + WHITE + "Hades.y2k " + END + RED +"---" + END
     print RED + "\t\t________________________________________" + END
     print RED + "\t\t--------" + END + WHITE + "  Thanks to Anubis/Xero  " + END + RED + "-------" + END
