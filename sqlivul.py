@@ -2,6 +2,7 @@
 # Hades.y2k
 # GPL <2.0>
 # You can report me for bugs
+# Credit to Xero who wrote pydorker.py (it's used as part of the function in my work)
 
 import pydorker
 import os, sys, re, urllib2, time, random
@@ -39,7 +40,6 @@ class banner():
     print RED + "\t\t------ " + END + WHITE + "SQLi Vulnerable Scanner " + END + RED +"---------" + END
     print RED + "\t\t-------------------------- " + END + WHITE + "Hades.y2k " + END + RED +"---" + END
     print RED + "\t\t________________________________________" + END
-    print RED + "\t\t--------" + END + WHITE + "  Thanks to Anubis/Xero  " + END + RED + "-------" + END
 
 class sqlscan():
     def __init__(self):
