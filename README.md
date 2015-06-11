@@ -1,4 +1,4 @@
-# Easy SQLi Vulnerable Scanner
+# /* SQLi Vulnerable Scanner */
 
 This will give you the SQLi Vulnerable Website Just by Adding the Dork.
 Feel free to report me bugs.
