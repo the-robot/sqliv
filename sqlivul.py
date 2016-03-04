@@ -22,18 +22,14 @@ user_agents = [
 vuln_urls = [] # the list to collect vulnerable urls.
 header = ""
 
-class bcolors:
-    RED = '\033[91m'
-    BOLD = '\033[1m'
-    OKGREEN = '\033[92m'
-    ENDC = '\033[0m'
-    WARNING = '\033[93m'
+# Colors
+RED     = '\033[91m'
+WHITE   = '\033[1m'
+GREEN   = '\033[92m'
+YELLOW  = '\033[93m'
+END     = '\033[0m'
 
-RED = bcolors.RED
-WHITE = bcolors.BOLD
-GREEN = bcolors.OKGREEN
-YELLOW = bcolors.WARNING
-END = bcolors.ENDC
+command = "clear" if 'nux' in sys.platform else "cls"
 
 class banner():
     print RED + "\t\t________________________________________" + END
@@ -88,17 +84,10 @@ class sqlscan():
         print WHITE + "\t\t            Exiting....\n\n" + END
 
     def readfile(self):
-        #openfile = open("sites.txt", 'r')
-        #readfile = openfile.read()
-        #openfile.close()
-
-        filelist = readfile.split('\n')
-        if '' in filelist:
-            filelist.pop(filelist.index(''))
-
+        filelist = [i for i in readfile.split('\n') if i != '']
         global filels
         filels = filelist
-        os.system('clear')
+        os.system(command)
 
     def urlreq(self, thelist):
         for item in thelist:
@@ -156,292 +145,81 @@ class sqlscan():
             sys.exit()
         else:
             print GREEN + "[+] " + END + WHITE + "Connected, URL is valid.\n" + END
+    def verify(self,url):
+        global vuln_urls
+        try:
+            header = {'User-Agent':random.choice(user_agents)}
+            request = urllib2.Request(url, None, header)
+            http_request = urllib2.urlopen(request)
+            sourcecode = http_request.read()
+
+            error_msg = {
+                        "mysql_error_1":"You have an error in your SQL syntax",
+                        "mysql_error_2":"supplied argument is not a valid MySQL result resource",
+                        "mysql_error_3":"check the manual that corresponds to your MySQL"
+                        "mysql_error_4":"mysql_fetch_array(): supplied argument is not a valid MySQL",
+                        "mssql_error_1":"Microsoft OLE DB Provider for ODBC Drivers error"
+                        }
+            result = {
+                        "mysql_error1":re.findall(error_msg["mysql_error_1"],sourcecode),
+                        "mysql_error2":re.findall(error_msg["mysql_error_2"],sourcecode),
+                        "mysql_error3":re.findall(error_msg["mysql_error_3"],sourcecode),
+                        "mysql_error4":re.findall(error_msg["mysql_error_4"],sourcecode),
+                        "mssql_error1":re.findall(error_msg["mssql_error_1"],sourcecode)
+                     }
+
+            for key, resp in result:
+                if len(resp) != 0:
+                    print GREEN + "[+] " + END + WHITE + "SQL error found." + END
+                    vuln_urls.append(vuln_test)
+        
+        except urllib2.HTTPError, e:
+            print 'We failed with error code - %s.' % e.code
+            time.sleep(2)
+            os.system(command)
 
     def scanurl(self, url):
-        # MySQL Errors
-        mysql_error_1 = "You have an error in your SQL syntax"
-        mysql_error_2 = "supplied argument is not a valid MySQL result resource"
-        mysql_error_3 = "check the manual that corresponds to your MySQL"
-        mysql_error_4 = "mysql_fetch_array(): supplied argument is not a valid MySQL"
-        # MSSQL Error
-        mssql_error_1 = "Microsoft OLE DB Provider for ODBC Drivers error"
-
         trigger_1 = "'"
 
-
-
-# Start from line 145 to line 406 will be use to check sql injection vulnerability.
-#----------------------------------------------------------------------------------------#
-        #Parsed the URL using urlparse
         parsed_url = urlparse(url)
-        try:
-            # List the Items in Query of Provided URL with
-            # it's id, using dict()
-            parms = dict([item.split("=") for item in parsed_url[4].split("&")])
-            parm_keys = parms.keys()
+        # List the Items in Query of Provided URL with
+        # it's id, using dict()
+        parms = dict([item.split("=") for item in parsed_url[4].split("&")])
+        parm_keys = parms.keys()
 
-            #initx = 0
-            if len(parms) == 1: # If Query in URL is only 1 this will work
-                try:
-                    vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1
-                    print YELLOW + "[!] " + END + WHITE + "Testing: " + END + vuln_test
+        #initx = 0
+        if len(parms) == 1:
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1
+            print YELLOW + "[!] " + END + WHITE + "Testing: " + END + vuln_test
+            self.verify(vuln_test)        
 
-                    # Request the vuln_test & read the source
-                    header = {'User-Agent':random.choice(user_agents)}
-                    request = urllib2.Request(vuln_test, None, header)
-                    http_request = urllib2.urlopen(request)
-                    # Saving the source-code
-                    sourcecode = http_request.read()
+        elif len(parms) == 2: # If there're 2 quaries in the URL, this will work
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]]
+            print YELLOW + "[!] " + END + WHITE + "Testing: " + END + vuln_test
+            self.verify(vuln_test)   
 
-                    # Looking for SQL Error
-                    mysql_error1 = re.findall(mysql_error_1, sourcecode)
-                    if len(mysql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1
+            print YELLOW + "\n[!] " + END + WHITE + "Testing: " + END + vuln_test
+            self.verify(vuln_test)   
 
-                    mysql_error2 = re.findall(mysql_error_2, sourcecode)
-                    if len(mysql_error2) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
+        elif len(parms) == 3: # If there're 3 quaries in the URL, this will work
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
+            print YELLOW + "[!] " + END + WHITE + "Testing: " + END + vuln_test
+            self.verify(vuln_test)
 
-                    mysql_error3 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error3) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1 + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
+            print YELLOW + "\n[!] " + END + WHITE + "Testing: " + END + vuln_test
+            self.verify(vuln_test)
+            
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
+            print YELLOW + "\n[!] " + END + WHITE + "Testing: " + END + vuln_test
+            self.verify(vuln_test)
 
-                    mysql_error4 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error4) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mssql_error1 = re.findall(mssql_error_1, sourcecode)
-                    if len(mssql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-                except urllib2.HTTPError, e:
-                    print 'We failed with error code - %s.' % e.code
-                time.sleep(2)
-                os.system('clear')
-
-
-            elif len(parms) == 2: # If there're 2 quaries in the URL, this will work
-                try:
-                    vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]]
-                    print YELLOW + "[!] " + END + WHITE + "Testing: " + END + vuln_test
-
-                    # Request the vuln_test & read the source
-                    header = {'User-Agent':random.choice(user_agents)}
-                    request = urllib2.Request(vuln_test, None, header)
-                    http_request = urllib2.urlopen(request)
-                    # Saving the source-code
-                    sourcecode = http_request.read()
-
-                    # Looking for SQL Error
-                    mysql_error1 = re.findall(mysql_error_1, sourcecode)
-                    if len(mysql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error2 = re.findall(mysql_error_2, sourcecode)
-                    if len(mysql_error2) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error3 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error3) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error4 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error4) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mssql_error1 = re.findall(mssql_error_1, sourcecode)
-                    if len(mssql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-                    print ""
-                except urllib2.HTTPError, e:
-                    print 'We failed with error code - %s.' % e.code
-
-                try:
-                    # You can use single quote in second id to check.
-                    vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1
-                    print YELLOW + "\n[!] " + END + WHITE + "Testing: " + END + vuln_test
-
-                    # Request the vuln_test & read the source
-                    request = urllib2.Request(vuln_test, None, header)
-                    http_request = urllib2.urlopen(request)
-                    # Saving the source-code
-                    sourcecode = http_request.read()
-
-                    # Looking for SQL Error
-                    mysql_error1 = re.findall(mysql_error_1, sourcecode)
-                    if len(mysql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error2 = re.findall(mysql_error_2, sourcecode)
-                    if len(mysql_error2) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error3 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error3) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error4 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error4) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mssql_error1 = re.findall(mssql_error_1, sourcecode)
-                    if len(mssql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-                except urllib2.HTTPError, e:
-                    print 'We failed with error code - %s.' % e.code
-                time.sleep(2)
-                os.system('clear')
-
-
-            elif len(parms) == 3: # If there're 3 quaries in the URL, this will work
-                try:
-                    vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
-                    print YELLOW + "[!] " + END + WHITE + "Testing: " + END + vuln_test
-
-                    # Request the vuln_test & read the source
-                    header = {'User-Agent':random.choice(user_agents)}
-                    request = urllib2.Request(vuln_test, None, header)
-                    http_request = urllib2.urlopen(request)
-                    # Saving the source-code
-                    sourcecode = http_request.read()
-
-                    # Looking for SQL Error
-                    mysql_error1 = re.findall(mysql_error_1, sourcecode)
-                    if len(mysql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error2 = re.findall(mysql_error_2, sourcecode)
-                    if len(mysql_error2) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error3 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error3) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error4 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error4) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mssql_error1 = re.findall(mssql_error_1, sourcecode)
-                    if len(mssql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-                    print ""
-                except urllib2.HTTPError, e:
-                    print 'We failed with error code - %s.' % e.code
-
-                try:
-                    # You can use single quote in second id to check.
-                    vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1 + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
-                    print YELLOW + "\n[!] " + END + WHITE + "Testing: " + END + vuln_test
-
-                    # Request the vuln_test & read the source
-                    request = urllib2.Request(vuln_test, None, header)
-                    http_request = urllib2.urlopen(request)
-                    # Saving the source-code
-                    sourcecode = http_request.read()
-
-                    # Looking for SQL Error
-                    mysql_error1 = re.findall(mysql_error_1, sourcecode)
-                    if len(mysql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error2 = re.findall(mysql_error_2, sourcecode)
-                    if len(mysql_error2) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error3 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error3) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error4 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error4) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mssql_error1 = re.findall(mssql_error_1, sourcecode)
-                    if len(mssql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-                except urllib2.HTTPError, e:
-                    print 'We failed with error code - %s.' % e.code
-
-                try:
-                    # You can use single quote in second id to check.
-                    vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
-                    print YELLOW + "\n[!] " + END + WHITE + "Testing: " + END + vuln_test
-
-                    # Request the vuln_test & read the source
-                    request = urllib2.Request(vuln_test, None, header)
-                    http_request = urllib2.urlopen(request)
-                    # Saving the source-code
-                    sourcecode = http_request.read()
-
-                    # Looking for SQL Error
-                    mysql_error1 = re.findall(mysql_error_1, sourcecode)
-                    if len(mysql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error2 = re.findall(mysql_error_2, sourcecode)
-                    if len(mysql_error2) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error3 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error3) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mysql_error4 = re.findall(mysql_error_3, sourcecode)
-                    if len(mysql_error4) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-
-                    mssql_error1 = re.findall(mssql_error_1, sourcecode)
-                    if len(mssql_error1) != 0:
-                        print GREEN + "[+] " + END + WHITE + "SQL error found." + END
-                        vuln_urls.append(vuln_test)
-                except urllib2.HTTPError, e:
-                    print 'We failed with error code - %s.' % e.code
-                time.sleep(2)
-                os.system('clear')
-        # This exception will work out if URL do not have 'www' or no query.
-        except:
-            print RED + "[!] " + END + WHITE + "An error found in the URL." + END
-            print RED + "[!] " + END + WHITE + "May be no quary in the URL." + END
-            print RED + "[!] " + END + WHITE + "I will skip this URL." + END
-            time.sleep(2)
-            os.system('clear')
-            pass
-
-#----------------------------------------------------------------------------------------#
                      
     def printvuln(self):
         # Remove Duplicate Vuln URLs
         vulns = list(set(vuln_urls))     
-        os.system('clear')
+        os.system(command)
         if len(vulns) != 0:
             # Printing out vulnerable URLs.
             print GREEN + "\n\t\t     [!] " + END + WHITE + "Vulnerable URLs.\n" + END
@@ -453,6 +231,7 @@ class sqlscan():
             print GREEN + "\n[!] " + END + WHITE + "Vulnerables saved into vulnerables.txt." + END
         else:
             print RED + "\n[!] " + END + WHITE + "No Vulnerable URLs found.\n" + END
+            
         print YELLOW + "[+] " + END + WHITE + "Process complete. Exiting.....\n\n" + END
         time.sleep(1)
 
@@ -465,7 +244,7 @@ if __name__ == "__main__":
             netorlocal()
             sqlscan()
         except KeyboardInterrupt:
-            os.system('clear')
+            os.system(command)
             print RED + "[!] " + END + WHITE + "User interrupted the process." + END
             print RED + "[!] " + END + WHITE + "Process is about to terminated.\n" + END
             lastask = raw_input(WHITE + "Do you want to save current scanned results [y/n] " + END)
