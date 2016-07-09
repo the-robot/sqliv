@@ -37,7 +37,7 @@ www.github.com/Hadesy2k
 official.hadesy2k@protonmail.com\n"""
 
 
-class intro():
+class options:
     """ This class ask your to choose two option
         First option, scan the websites given from text file
         Second option, scan random vulnerable website by giving Google dork
@@ -57,7 +57,7 @@ class intro():
             os.system('ls')
 
             try:
-                filename = raw_input("[!] Please Enter file name: ")
+                filename = raw_input("\nPlease Enter file name: ")
                 openfile = open(filename, 'r')
                 readfile = openfile.read()
                 openfile.close()
@@ -82,7 +82,7 @@ class intro():
             sys.exit()
 
 
-class sqlscan():
+class main:
     def __init__(self):
         self.urlreq(self.readfile())
         self.printvuln()
@@ -237,8 +237,8 @@ if __name__ == "__main__":
     # many error message when KeyboardInterrupt raised.
     try:
         banner()
-        intro()
-        sqlscan()
+        options()
+        main()
 
     except KeyboardInterrupt:
         os.system('clear')
