@@ -32,6 +32,12 @@ header = ""
 vuln_urls = []
 
 
+def banner():
+    print """SQL Injection Vulnerability Scanner by Hades.y2k
+www.github.com/Hadesy2k
+official.hadesy2k@protonmail.com\n"""
+
+
 class intro():
     """ This class ask your to choose two option
         First option, scan the websites given from text file
@@ -234,6 +240,7 @@ if __name__ == "__main__":
     # I used try, except to prevent interpreter from printing out
     # many error message when KeyboardInterrupt raised.
     try:
+        banner()
         intro()
         sqlscan()
 
