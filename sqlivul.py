@@ -6,7 +6,7 @@
 # GPL <3.0>
 # You can report me for bugs
 
-import pydorker
+from ext import pydorker
 import os
 import sys
 import re
@@ -32,13 +32,20 @@ header = ""
 vuln_urls = []
 
 
-class netorlocal():
+class intro():
+    """ This class ask your to choose two option
+        First option, scan the websites given from text file
+        Second option, scan random vulnerable website by giving Google dork
+    """
+
     def __init__(self):
         global readfile
-        print "[!] You can scan vulnerables from local or Google Dorks."
-        askusr = raw_input("[!] From Local or Net [local/net]: ")
+        print """There are two options for scanning process
+[1] Scan the websites given from text file
+[2] Scan random vulnerable website by giving Google dork"""
+        option = raw_input("Choose option [1/2]: ")
 
-        if askusr == 'local':
+        if option == '1':
             print
             os.system('pwd')
             print "This is your files in current directory."
@@ -58,12 +65,16 @@ class netorlocal():
                 print "\n[!] File does not exist."
                 sys.exit()
 
-        elif askusr == 'net':
+        elif option == '2':
             pydorker.main()
             openfile = open("sites.txt", 'r')
             readfile = openfile.read()
             print readfile
             openfile.close()
+
+        else:
+            print "Not valid option"
+            sys.exit()
 
 
 class sqlscan():
@@ -221,7 +232,7 @@ if __name__ == "__main__":
     # I used try, except to prevent interpreter from printing out
     # many error message when KeyboardInterrupt raised.
     try:
-        netorlocal()
+        intro()
         sqlscan()
 
     except KeyboardInterrupt:
