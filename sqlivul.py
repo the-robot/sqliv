@@ -3,7 +3,7 @@
 # 09/07/2016
 # Hades.y2k (github.com/Hadesy2k)
 # official.hadesy2k@protonmail.com
-# GPL <3.0>
+# GNU GPL <3.0>
 # You can report me for bugs
 
 from ext import pydorker
