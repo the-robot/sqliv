@@ -6,7 +6,7 @@
 # GNU GPL <3.0>
 # You can report me for bugs
 
-from ext import pydorker
+from ext import pysearch
 import os
 import sys
 import re
@@ -66,7 +66,7 @@ class intro():
                 sys.exit()
 
         elif option == '2':
-            pydorker.main()
+            pysearch.main()
             openfile = open("sites.txt", 'r')
             readfile = openfile.read()
             print readfile
@@ -112,6 +112,8 @@ class sqlscan():
             print " Protocol    : " + parsed.scheme
             print " Path        : " + parsed.path
             print " Query[s]    : " + parsed.query + "\n"
+
+            time.sleep(5)
 
             self.upordown(url)
             self.scanurl(site)
