@@ -21,7 +21,7 @@ class main:
         if query != '' and pages != '':
             self.dork(query, pages, filename)
         else:
-            print "Dork or number of pages is not provided"
+            print "Dork or pages is not provided"
             sys.exit()
 
     def dork(self, query, pages, filename):
