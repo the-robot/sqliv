@@ -15,8 +15,8 @@ class main:
         query = raw_input("Dork: ")
         query = "inurl:" + query
         pages = input("Enter number of pages: ")
-        print  # Printing empty new line
-        filename = "sites.txt"  # File will save as 'sites.txt'
+        print  # printing empty new line
+        filename = "sites.txt"  # file will save as 'sites.txt'
 
         if query != '' and pages != '':
             self.dork(query, pages, filename)
