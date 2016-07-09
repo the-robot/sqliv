@@ -3,7 +3,7 @@
 # 09/07/2016
 # Hades.y2k (github.com/Hadesy2k)
 # official.hadesy2k@protonmail.com
-# GPL <3.0>
+# GNU GPL <3.0>
 
 import sys
 from google import search
@@ -20,9 +20,6 @@ class main:
 
         if query != '' and pages != '':
             self.dork(query, pages, filename)
-        else:
-            print "Dork or pages is not provided"
-            sys.exit()
 
     def dork(self, query, pages, filename):
         print "[+] Googling for %s " % query
