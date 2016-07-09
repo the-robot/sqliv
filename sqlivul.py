@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# 09/07/2016
+# 10/07/2016
 # Hades.y2k (github.com/Hadesy2k)
 # official.hadesy2k@protonmail.com
 # GNU GPL <3.0>
@@ -28,7 +28,6 @@ user_agents = [
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19'
     ]
 
-header = ""
 vuln_urls = []
 
 
@@ -119,8 +118,6 @@ class sqlscan():
             print " Path        : " + parsed.path
             print " Query[s]    : " + parsed.query + "\n"
 
-            time.sleep(5)
-
             self.upordown(url)
             self.scanurl(site)
 
@@ -139,8 +136,7 @@ class sqlscan():
             print "\nVulnerables saved into vulnerables.txt."
         else:
             print "\nNo Vulnerable URLs found."
-
-        print "[+] Process complete."
+        print "Process complete."
 
     def upordown(self, url):
         header = {'User-Agent': random.choice(user_agents)}
@@ -189,7 +185,7 @@ class sqlscan():
                 try:
                     resp.group()
                     print "[+] SQL error found."
-                    time.sleep(2)
+                    time.sleep(1)
                     vuln_urls.append(url)
                 except:
                     pass
