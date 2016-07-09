@@ -1,7 +1,9 @@
 Author  - Hades.y2k
-License - GNU v2.0
-#Run sqlivul.py to use this tool
-Credit  - Xero (who wrote pydorker.py)
 
-#You can report me for bugs.
-https://github.com/Hadesy2k/sqlivulscan
+License - GNU v3.0
+
+There are two options for scanning, first option will scan the websites given from text file
+
+Second option will scan random vulnerable website by giving Google dork
+
+
