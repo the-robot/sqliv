@@ -5,6 +5,7 @@
 # official.hadesy2k@protonmail.com
 # GPL <3.0>
 # You can report me for bugs
+# Credit to Xero who wrote pydorker.py
 
 import pydorker
 import os
@@ -204,12 +205,7 @@ class sqlscan():
 
         elif len(parms) == 3:
 
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc +\
-                parsed_url.path + "?" + parm_keys[0] + "=" +\
-                parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "="\
-                + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" +\
-                parms[parm_keys[2]]
-
+            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
             print "[!] Testing:" + vuln_test
             self.verify(vuln_test)
 
