@@ -5,7 +5,6 @@
 # official.hadesy2k@protonmail.com
 # GPL <3.0>
 # You can report me for bugs
-# Credit to Xero who wrote pydorker.py
 
 import pydorker
 import os
