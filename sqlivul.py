@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 # 09/07/2016
-# Hades.y2k
+# Hades.y2k (github.com/Hadesy2k)
+# official.hadesy2k@protonmail.com
 # GPL <3.0>
 # You can report me for bugs
-# Credit to Xero who wrote pydorker.py
 
 import pydorker
 import os
