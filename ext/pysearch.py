@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# 09/07/2016
+# 10/07/2016
 # Hades.y2k (github.com/Hadesy2k)
 # official.hadesy2k@protonmail.com
 # GNU GPL <3.0>
@@ -10,6 +10,10 @@ from google import search
 
 
 class main:
+    """ This class used to search vulnerable website
+        by searching on Google with SQLi dork given from user
+    """
+
     def __init__(self):
         print "\nEnter SQLi Dork without 'inurl:'"
         query = raw_input("Dork: ")
