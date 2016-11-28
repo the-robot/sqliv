@@ -2,7 +2,7 @@
 
 # 10/07/2016
 # Hades.y2k (github.com/Hadesy2k)
-# official.hadesy2k@protonmail.com
+# official.ghost@tuta.io
 # GNU GPL <3.0>
 # You can report me for bugs
 
@@ -163,6 +163,8 @@ class main:
             http_request = urllib2.urlopen(request)
             sourcecode = http_request.read()
 
+            # you can add more if you want to
+            # for any changes on error_msg, you have to add re.search on result dictionary.
             error_msg = {
                 "mysql_error_1": "You have an error in your SQL syntax",
                 "mysql_error_2": "supplied argument is not a valid MySQL result resource",
