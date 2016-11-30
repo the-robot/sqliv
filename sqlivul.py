@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# 10/07/2016
+# 30/11/2016
 # Hades.y2k (github.com/Hadesy2k)
 # official.hadesy2k@protonmail.com
 # GNU GPL <3.0>
