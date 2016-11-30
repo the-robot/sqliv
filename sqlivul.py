@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # 30/11/2016
-# Hades.y2k (github.com/Hadesy2k)
+# Ghost (github.com/Hadesy2k)
 # official.ghost@tuta.io
 # GNU GPL <3.0>
 # You can report me for bugs
@@ -16,6 +16,7 @@ from urlparse import urlparse
 import time
 
 
+isBanner = False  # set True to show Banner at start
 # You Can Add Other If You Want To
 user_agents = [
     'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
@@ -27,14 +28,13 @@ user_agents = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:8.0.1) Gecko/20100101 Firefox/8.0.1',
     'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19'
     ]
-
 vuln_urls = []
-
+# You can add more SQL error message at line 166
 
 def banner():
-    print """SQL Injection Vulnerability Scanner by Hades.y2k
+    print """SQL Injection Vulnerability Scanner by Ghost
 www.github.com/Hadesy2k
-official.hadesy2k@protonmail.com\n"""
+official.ghost@tuta.io\n"""
 
 
 class options:
@@ -163,6 +163,8 @@ class main:
             http_request = urllib2.urlopen(request)
             sourcecode = http_request.read()
 
+            # You can add more SQL error messages
+            # changes need to be made in result{} too
             error_msg = {
                 "mysql_error_1": "You have an error in your SQL syntax",
                 "mysql_error_2": "supplied argument is not a valid MySQL result resource",
@@ -240,7 +242,8 @@ if __name__ == "__main__":
     # I used try, except to prevent interpreter from printing out
     # many error message when KeyboardInterrupt raised.
     try:
-        banner()
+        if isBanner:
+            banner()
         options()
         main()
 

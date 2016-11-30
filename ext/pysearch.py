@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
-# 30/112016
-# Hades.y2k (github.com/Hadesy2k)
-# official.hadesy2k@protonmail.com
+# 30/11/2016
+# Ghost (github.com/Hadesy2k)
+# official.ghost@tuta.io
 # GNU GPL <3.0>
 
 import sys
@@ -35,7 +35,7 @@ class main:
                 urlList.append(url)
         except HTTPError:
             print "[HTTP Error 503] Service Unreachable"
-            print "Try other dork, if error still continue use VPN"
+            print "Try other dork, if an error still continue use VPN"
             exit(1)
 
         if len(urlList) != 0:
