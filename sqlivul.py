@@ -201,12 +201,7 @@ class main:
         # it's id, using dict()
 
         try:
-            parsed_results = parsed_url[4].split("&")
-        except IndexError, ValueError:
-            parsed_results = None
-            print "[-] Query Not Found"
-        if parsed_results:
-            parms = dict([item.split("=") for item in parsed_results])
+            parms = dict([item.split("=") for item in parsed_url[4].split("&")])
             parm_keys = parms.keys()
 
             # initx = 0
@@ -237,6 +232,8 @@ class main:
                 vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
                 print "[!] Testing: " + vuln_test
                 self.verify(vuln_test)
+        except IndexError, ValueError:
+            print "[-] Query Not Found"
 
 
 if __name__ == "__main__":

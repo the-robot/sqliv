@@ -35,7 +35,7 @@ class main:
                 urlList.append(url)
         except HTTPError:
             print "[HTTP Error 503] Service Unreachable"
-            print "Try other dork"
+            print "Try other dork, if error still continue use VPN"
             exit(1)
 
         if len(urlList) != 0:
