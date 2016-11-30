@@ -7,6 +7,7 @@
 
 import sys
 from google import search
+from urllib2 import HTTPError
 
 
 class main:
@@ -29,8 +30,13 @@ class main:
         print "[+] Googling for %s " % query
         urlList = []
 
-        for url in search(query, stop=pages):
-            urlList.append(url)
+        try:
+            for url in search(query, stop=pages):
+                urlList.append(url)
+        except HTTPError:
+            print "[HTTP Error 503] Service Unreachable"
+            print "Try other dork"
+            exit(1)
 
         if len(urlList) != 0:
             print "Result: %i" % len(urlList)
@@ -41,6 +47,3 @@ class main:
         else:
             print "No result found"
             sys.exit()
-
-if __name__ == "__main__":
-    main()

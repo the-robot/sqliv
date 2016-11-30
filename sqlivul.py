@@ -2,7 +2,7 @@
 
 # 10/07/2016
 # Hades.y2k (github.com/Hadesy2k)
-# official.ghost@tuta.io
+# official.hadesy2k@protonmail.com
 # GNU GPL <3.0>
 # You can report me for bugs
 
@@ -15,8 +15,6 @@ import random
 from urlparse import urlparse
 import time
 
-# show banner, set False to disable
-BANNER = True
 
 # You Can Add Other If You Want To
 user_agents = [
@@ -36,7 +34,7 @@ vuln_urls = []
 def banner():
     print """SQL Injection Vulnerability Scanner by Hades.y2k
 www.github.com/Hadesy2k
-official.ghost@tuta.io\n"""
+official.hadesy2k@protonmail.com\n"""
 
 
 class options:
@@ -165,8 +163,6 @@ class main:
             http_request = urllib2.urlopen(request)
             sourcecode = http_request.read()
 
-            # you can add more if you want to
-            # for any changes on error_msg, you have to add re.search on result dictionary.
             error_msg = {
                 "mysql_error_1": "You have an error in your SQL syntax",
                 "mysql_error_2": "supplied argument is not a valid MySQL result resource",
@@ -203,45 +199,51 @@ class main:
         parsed_url = urlparse(url)
         # List the Items in Query of Provided URL with
         # it's id, using dict()
-        parms = dict([item.split("=") for item in parsed_url[4].split("&")])
-        parm_keys = parms.keys()
 
-        # initx = 0
-        if len(parms) == 1:
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1
-            print "[!] Testing: " + vuln_test
-            self.verify(vuln_test)
+        try:
+            parsed_results = parsed_url[4].split("&")
+        except IndexError, ValueError:
+            parsed_results = None
+            print "[-] Query Not Found"
+        if parsed_results:
+            parms = dict([item.split("=") for item in parsed_results])
+            parm_keys = parms.keys()
 
-        elif len(parms) == 2:
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]]
-            print "[!] Testing: " + vuln_test
-            self.verify(vuln_test)
+            # initx = 0
+            if len(parms) == 1:
+                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1
+                print "[!] Testing: " + vuln_test
+                self.verify(vuln_test)
 
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1
-            print "[!] Testing: " + vuln_test
-            self.verify(vuln_test)
+            elif len(parms) == 2:
+                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]]
+                print "[!] Testing: " + vuln_test
+                self.verify(vuln_test)
 
-        elif len(parms) == 3:
+                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1
+                print "[!] Testing: " + vuln_test
+                self.verify(vuln_test)
 
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
-            print "[!] Testing:" + vuln_test
-            self.verify(vuln_test)
+            elif len(parms) == 3:
 
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1 + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
-            print "[!] Testing: " + vuln_test
-            self.verify(vuln_test)
+                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
+                print "[!] Testing:" + vuln_test
+                self.verify(vuln_test)
 
-            vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
-            print "[!] Testing: " + vuln_test
-            self.verify(vuln_test)
+                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1 + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
+                print "[!] Testing: " + vuln_test
+                self.verify(vuln_test)
+
+                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
+                print "[!] Testing: " + vuln_test
+                self.verify(vuln_test)
 
 
 if __name__ == "__main__":
     # I used try, except to prevent interpreter from printing out
     # many error message when KeyboardInterrupt raised.
     try:
-        if BANNER:
-            banner()
+        banner()
         options()
         main()
 
