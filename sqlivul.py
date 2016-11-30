@@ -2,7 +2,7 @@
 
 # 30/11/2016
 # Hades.y2k (github.com/Hadesy2k)
-# official.hadesy2k@protonmail.com
+# official.ghost@tuta.io
 # GNU GPL <3.0>
 # You can report me for bugs
 
