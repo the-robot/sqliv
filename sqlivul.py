@@ -6,7 +6,8 @@
 # GNU GPL <3.0>
 # You can report me for bugs
 
-from ext import pysearch
+from ext.geturls import GetUrls
+from ext.useragents import getUserAgents
 import os
 import sys
 import re
@@ -16,18 +17,6 @@ from urlparse import urlparse
 import time
 
 
-isBanner = False  # set True to show Banner at start
-# You Can Add Other If You Want To
-user_agents = [
-    'Mozilla/5.0 (Windows; U; Windows NT 5.1; it; rv:1.8.1.11) Gecko/20071127 Firefox/2.0.0.11',
-    'Opera/9.25 (Windows NT 5.1; U; en)',
-    'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)',
-    'Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Kubuntu)',
-    'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.142 Safari/535.19',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:11.0) Gecko/20100101 Firefox/11.0',
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:8.0.1) Gecko/20100101 Firefox/8.0.1',
-    'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.151 Safari/535.19'
-    ]
 vuln_urls = []
 # You can add more SQL error message at line 166
 
@@ -37,68 +26,41 @@ www.github.com/Hadesy2k
 official.ghost@tuta.io\n"""
 
 
-class options:
-    """ This class ask your to choose two option
-        First option, scan the websites given from text file
-        Second option, scan random vulnerable website by giving Google dork
-    """
+def interruptHandler():
+    os.system('clear')
+    print "User interrupted the process."
+    option = raw_input("Do you want to save scanned results [y/n] ")
+    if option == 'y':
+        print "Saving the scanned result into vulnerables.txt....."
+        # Opening the file and Saving the process.
+        vulnerabilities = list(set(vuln_urls))
+        iowriter = open("vulnerables.txt", 'w')
 
-    def __init__(self):
-        global readfile
-        print """There are two options for scanning process
-[1] Scan the websites given from text file
-[2] Scan random vulnerable website by giving Google dork"""
-        option = raw_input("Choose option [1/2]: ")
-
-        if option == '1':
-            print
-            os.system('pwd')
-            print "This is your files in current directory."
-            os.system('ls')
-
-            try:
-                filename = raw_input("\nPlease Enter file name: ")
-                openfile = open(filename, 'r')
-                readfile = openfile.read()
-                openfile.close()
-
-            except KeyboardInterrupt:
-                print "\n\n[!] Process Interrupted."
-                sys.exit()
-
-            except:
-                print "\n[!] File does not exist."
-                sys.exit()
-
-        elif option == '2':
-            pysearch.main()
-            openfile = open("sites.txt", 'r')
-            readfile = openfile.read()
-            print readfile
-            openfile.close()
-
-        else:
-            print "Not valid option"
-            sys.exit()
+        for item in vulnerabilities:
+            iowriter.write(item + "\n")
+        iowriter.close()  # Closing the file
+        print "Done"
+    else:
+        print "Scanned results will not be saved"
+    exit()
 
 
-class main:
-    def __init__(self):
-        self.urlreq(self.readfile())
-        self.printvuln()
+class Main:
+    def __init__(self, urls):
+        self.user_agents = getUserAgents('./data/useragents.txt')
+        self.urlReq(self.urlReader(urls))
+        self.saveVulnerabilities()
 
-    def readfile(self):
-        filelist = readfile.split('\n')
-        # Removing empty line
-        if '' in filelist:
-            filelist.pop(filelist.index(''))
-        os.system('clear')
-        return filelist
+    def urlReader(self, urls):
+        """ split the url by newline """
+        splittedUrls = urls.split('\n')
+        if '' in splittedUrls:  # Removing empty line
+            splittedUrls.pop(splittedUrls.index(''))
+        return splittedUrls
 
-    def urlreq(self, urlList):
-        for site in urlList:
+    def urlReq(self, urls):
+        for site in urls:
             parsed = urlparse(site)
-
             # These will check user URL whether it missed some necessary input.
             if len(parsed.scheme) == 0:
                 pass
@@ -118,47 +80,76 @@ class main:
             print " Path        : " + parsed.path
             print " Query[s]    : " + parsed.query + "\n"
 
-            self.upordown(url)
-            self.scanurl(site)
+            if (self.siteStatus(url)):  # True mean website is online
+                self.scanVulnerability(site)
 
-    def printvuln(self):
-        # Remove Duplicate Vuln URLs
-        vulns = list(set(vuln_urls))
-        os.system('clear')
-        if len(vulns) != 0:
-            # Printing out vulnerable URLs.
-            print "[!] Vulnerable URLs"
-            vulnwrite = open("vulnerables.txt", 'w')
-            for item in vulns:
-                print item
-                vulnwrite.write(item + "\n")
-            vulnwrite.close()
-            print "\nVulnerables saved into vulnerables.txt."
-        else:
-            print "\nNo Vulnerable URLs found."
-        print "Process complete."
-
-    def upordown(self, url):
-        header = {'User-Agent': random.choice(user_agents)}
+    def siteStatus(self, url):
+        """ check website online or offline status """
+        header = {'User-Agent': random.choice(self.user_agents)}
         request = urllib2.Request(url, None, header)
 
-        print "Checking the Website whether it's up or down."
+        print "Checking the website whether it's online or not."
         try:
             urllib2.urlopen(request)
-            print "[+] Connected, URL is valid.\n"
+            print "Connected, URL is valid."
+            return True
 
-        except urllib2.HTTPError, e:
-            print e.code
-            sys.exit()
+        except urllib2.HTTPError, error:
+            print error.code
+            time.sleep(1)
+            return False
 
-        except urllib2.URLError, e:
-            print e.reason
-            sys.exit()
+        except urllib2.URLError, error:
+            print error.reason
+            time.sleep(1)
+            return False
 
-    def verify(self, url):
+    def scanVulnerability(self, url):
+        """ Scan the url by giving semi-colon on different id param """
+        trigger_1 = "'"
+
+        parsedUrl = urlparse(url)
+        # List the Items in Query of Provided URL with
+        # it's id, using dict()
+
+        try:
+            parms = dict([item.split("=") for item in parsedUrl[4].split("&")])
+            parm_keys = parms.keys()
+
+            if len(parms) == 1:
+                vuln_test = parsedUrl.scheme + "://" + parsedUrl.netloc + parsedUrl.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1
+                print "Testing: " + vuln_test
+                self.verifyVulnerability(vuln_test)
+
+            elif len(parms) == 2:
+                vuln_test = parsedUrl.scheme + "://" + parsedUrl.netloc + parsedUrl.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]]
+                print "Testing: " + vuln_test
+                self.verifyVulnerability(vuln_test)
+
+                vuln_test = parsedUrl.scheme + "://" + parsedUrl.netloc + parsedUrl.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1
+                print "Testing: " + vuln_test
+                self.verifyVulnerability(vuln_test)
+
+            elif len(parms) == 3:
+                vuln_test = parsedUrl.scheme + "://" + parsedUrl.netloc + parsedUrl.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
+                print "Testing:" + vuln_test
+                self.verifyVulnerability(vuln_test)
+
+                vuln_test = parsedUrl.scheme + "://" + parsedUrl.netloc + parsedUrl.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1 + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
+                print "Testing: " + vuln_test
+                self.verifyVulnerability(vuln_test)
+
+                vuln_test = parsedUrl.scheme + "://" + parsedUrl.netloc + parsedUrl.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
+                print "Testing: " + vuln_test
+                self.verifyVulnerability(vuln_test)
+
+        except IndexError, ValueError:
+            print "Query Not Found"
+    
+    def verifyVulnerability(self, url):
         global vuln_urls
         try:
-            header = {'User-Agent': random.choice(user_agents)}
+            header = {'User-Agent': random.choice(self.user_agents)}
             request = urllib2.Request(url, None, header)
             http_request = urllib2.urlopen(request)
             sourcecode = http_request.read()
@@ -183,87 +174,46 @@ class main:
                 "mssql_error1": re.search(error_msg["mssql_error_1"], sourcecode)
                 }
 
-            for key, resp in result.iteritems():
+            for resp in result.itervalues():
                 try:
                     resp.group()
-                    print "[+] SQL error found."
+                    print "SQL error found."
                     time.sleep(1)
                     vuln_urls.append(url)
                 except:
                     pass
 
-        except urllib2.HTTPError, e:
-            print 'We failed with error code - %s.' % e.code
-
-    def scanurl(self, url):
-        trigger_1 = "'"
-
-        parsed_url = urlparse(url)
-        # List the Items in Query of Provided URL with
-        # it's id, using dict()
-
-        try:
-            parms = dict([item.split("=") for item in parsed_url[4].split("&")])
-            parm_keys = parms.keys()
-
-            # initx = 0
-            if len(parms) == 1:
-                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1
-                print "[!] Testing: " + vuln_test
-                self.verify(vuln_test)
-
-            elif len(parms) == 2:
-                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]]
-                print "[!] Testing: " + vuln_test
-                self.verify(vuln_test)
-
-                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1
-                print "[!] Testing: " + vuln_test
-                self.verify(vuln_test)
-
-            elif len(parms) == 3:
-
-                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + trigger_1 + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
-                print "[!] Testing:" + vuln_test
-                self.verify(vuln_test)
-
-                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + trigger_1 + "&" + parm_keys[2] + "=" + parms[parm_keys[2]]
-                print "[!] Testing: " + vuln_test
-                self.verify(vuln_test)
-
-                vuln_test = parsed_url.scheme + "://" + parsed_url.netloc + parsed_url.path + "?" + parm_keys[0] + "=" + parms[parm_keys[0]] + "&" + parm_keys[1] + "=" + parms[parm_keys[1]] + "&" + parm_keys[2] + "=" + parms[parm_keys[2]] + trigger_1
-                print "[!] Testing: " + vuln_test
-                self.verify(vuln_test)
-        except IndexError, ValueError:
-            print "[-] Query Not Found"
+        except urllib2.HTTPError, error:
+            print 'Failed with error code - %s.' % error.code
+    
+    def saveVulnerabilities(self):
+        # Remove Duplicate Vuln URLs
+        vulns = list(set(vuln_urls))
+        os.system('clear')
+        if len(vulns) != 0:
+            # Printing out vulnerable URLs.
+            print "[!] Vulnerable URLs"
+            vulnwrite = open("vulnerables.txt", 'w')
+            for item in vulns:
+                print item
+                vulnwrite.write(item + "\n")
+            vulnwrite.close()
+            print "Vulnerables saved into vulnerables.txt."
+        else:
+            print "No Vulnerable URLs found."
+        print "Process complete."
 
 
 if __name__ == "__main__":
-    # I used try, except to prevent interpreter from printing out
-    # many error message when KeyboardInterrupt raised.
+    if len(sys.argv) == 2 and sys.argv[1] == '-d':
+        urls = GetUrls().dorkScanner()
+    elif len(sys.argv) == 3 and sys.argv[1] == '-f':
+        urls = GetUrls().fileReader(sys.argv[2])
+    else:
+        print "invalid option"
+        exit()
+
     try:
-        if isBanner:
-            banner()
-        options()
-        main()
-
+        Main(urls)
     except KeyboardInterrupt:
-        os.system('clear')
-        print "[!] User interrupted the process."
-
-        lastask = raw_input("Do you want to save scanned results [y/n] ")
-        if lastask == 'y':
-            print "Saving the scanned result into vulnerables.txt....."
-            # Opening the file and Saving the process.
-            vulns = list(set(vuln_urls))
-            vulnwrite = open("vulnerables.txt", 'w')
-
-            for item in vulns:
-                vulnwrite.write(item + "\n")
-            vulnwrite.close()  # Closing the file
-            print "Done"
-            sys.exit()
-
-        else:
-            print "Scanned results will not be saved"
-            sys.exit()
+        interruptHandler()
