@@ -1,4 +1,5 @@
-### Author  - Hades.y2k  
+### Author  - Hades.y2k *(official.ghost@tuta.io)*  
+#### [https://www.hadesy2k.github.io](hadesy2k.github.io)  
 #### License - GNU GPL v3.0  
 
 Massive SQL Injection Vulnerability Scanner
@@ -16,7 +17,7 @@ Massive SQL Injection Vulnerability Scanner
 ### Customization  
 *Edit* `ext/useragents.py` to add custom user-agents  
 *Edit* `ext/sqlierrors.py` to add more SQL Injection error messages  
-*Alias* alias the file to .bashrc `(or .*rc)` to call from anywhere in Linux platforms 
+*Alias* the file to .bashrc `(or .*rc)` to call from anywhere in Linux platforms 
 
 ![alt tag](https://github.com/Hadesy2k/sqlivulscan/blob/master/screenshots/1.png?raw=true)
 
