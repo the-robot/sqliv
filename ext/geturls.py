@@ -19,6 +19,7 @@ class GetUrls(object):
 
     @staticmethod
     def dorkScanner():
+        """ look for websites from Google by using dork """
         pysearch.PySearch()
         openfile = open("sites.txt", 'r')
         urls = openfile.read()
