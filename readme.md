@@ -9,9 +9,8 @@
 `-f <file>` to scan vulnerability of urls in given file  
 `--about` to view banner  
 
-> Last Update [12/02/2017]
 **Dependencies**  
-`pip install beautifulsoup4`
+`pip install beautifulsoup4`  
 
 **Customization**  
 *Edit* `ext/useragents.py` to add custom user-agents  
