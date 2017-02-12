@@ -1,12 +1,22 @@
-### Author  - Hades.y2k
+### Author  - Hades.y2k  
+#### License - GNU GPL v3.0  
 
-#### License - GNU GPL v3.0
+Massive SQL Injection Vulnerability Scanner
 
-There are two options for scanning, first option will scan the websites given from text file
+### How to
+`-h` to view help  
+`-d` to search vulnerable sites using google dork  
+`-f <file>` to scan vulnerability of urls in given file  
+`--about` to view banner  
 
-Second option will scan random vulnerable website by giving Google dork (Second option require BeautifulSoup4)
-
+> Last Update [12/02/2017]
+### Dependencies  
 `pip install beautifulsoup4`
+
+### Customization  
+*Edit* `ext/useragents.py` to add custom user-agents  
+*Edit* `ext/sqlierrors.py` to add more SQL Injection error messages  
+*Alias* alias the file to .bashrc `(or .*rc)` to call from anywhere in Linux platforms 
 
 ![alt tag](https://github.com/Hadesy2k/sqlivulscan/blob/master/screenshots/1.png?raw=true)
 
