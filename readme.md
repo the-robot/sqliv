@@ -1,7 +1,6 @@
 ### Author  - Hades.y2k  
-###### [mailto:official.ghost@tuta.io](official.ghost@tuta.io)  
-###### [hadesy2k.github.io](https://www.hadesy2k.github.io)  
-##### GNU GPL v3.0  
+> [mailto:official.ghost@tuta.io](official.ghost@tuta.io)  
+> [hadesy2k.github.io](https://www.hadesy2k.github.io)  
 
 #### Massive SQL Injection Vulnerability Scanner
 **How to**
