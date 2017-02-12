@@ -1,9 +1,9 @@
-### Massive SQL Injection Vulnerability Scanner [12/02/2017]  
+## Massive SQL Injection Vulnerability Scanner [12/02/2017]  
 ### Author  - Hades.y2k  
 > [mailto:official.ghost@tuta.io](official.ghost@tuta.io)  
 > [hadesy2k.github.io](https://www.hadesy2k.github.io)  
 
-**How to**
+**How to**  
 `-h` to view help  
 `-d` to search vulnerable sites using google dork  
 `-f <file>` to scan vulnerability of urls in given file  
