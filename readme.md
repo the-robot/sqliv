@@ -1,6 +1,6 @@
 ## Massive SQL Injection Vulnerability Scanner [12/02/2017]  
 ### Author  - Hades.y2k  
-> [mailto:official.ghost@tuta.io](official.ghost@tuta.io)  
+> [official.ghost@tuta.io](mailto:official.ghost@tuta.io)  
 > [hadesy2k.github.io](https://www.hadesy2k.github.io)  
 
 **How to**  
