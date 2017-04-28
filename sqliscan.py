@@ -155,7 +155,9 @@ class SqliScan:
                 print "Testing: " + vuln_test
                 self.verifyVulnerability(vuln_test)
 
-        except IndexError, ValueError:
+        except ValueError:
+            print "Query Not Found"
+        except IndexError:
             print "Query Not Found"
     
     def verifyVulnerability(self, url):
