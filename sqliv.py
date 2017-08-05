@@ -7,6 +7,14 @@ from src import reverse
 from src import io
 
 
+"""
+README
+src/io
+- io.stdout, io.stderr are used to show normal and error messages
+- io.stdin is used to get input from user
+- their printing format '[CODE] [CURRENTTIME] [MESSAGE]'
+"""
+
 # search engine instance
 google = search.Google()
 
@@ -51,9 +59,9 @@ if __name__ == "__main__":
         if args.d is not None and args.e is not None:
             io.stdout("searching for website with given dork")
 
+            # get websites based on search engine
             if args.e == "google":
                 websites = google.search(args.d, args.p)
-
             else:
                 io.stderr("invalid search engine")
                 exit(1)
@@ -85,9 +93,9 @@ if __name__ == "__main__":
                 if option == 'N':
                     exit(0)
 
+                # crawl and scan the links
+                # if crawl cannot find links, do some reverse domain
                 urls = crawler.crawl(args.t)
-
-                # do some reverse domain
                 if not massivescan(urls):
                     print "TODO: IMPLEMENT REVERSE DOMAIN"
                     exit(0)
