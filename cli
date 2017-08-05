@@ -3,14 +3,20 @@
 from src import search
 from src import scanner
 from src import crawler
+from src import reverse
 
 
 google = search.Google()
 
 sites = ["www.icdcprague.org/index.php?id=10",
-         "www.sallatykka.com/web/index.php?id=31&page=1"
+         "http://www.orc.org/index.asp?id=44",
+         "http://www.icdcprague.org/index.php?id=10",
+         "http://www.imagesystems.com.mt/index.php?id=10",
+         "http://www.sedimental.com/catalog/index.php?ID=67",
+         "http://www.architecturalpapers.ch/index.php?ID=10"
         ]
 
 #print(scanner.scan(sites[0]))
 #print(crawler.crawl("http://www.icdcprague.org/"))
-print(crawler.crawl(sites[1]))
+#print(crawler.crawl(sites[1]))
+print(reverse.reverseip(sites[1]))
