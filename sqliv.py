@@ -27,7 +27,7 @@ def massivescan(websites):
     for website in websites:
         io.stdout("scanning {}".format(website))
         if scanner.scan(website):
-            print "[VUL] SQL injection vulnerability found"
+            io.stdout("SQL injection vulnerability found")
             vulnerables.append(website)
 
     if vulnerables:
@@ -86,6 +86,8 @@ if __name__ == "__main__":
                 print "[VUL] SQL injection vulnerability found"
 
             else:
+                io.stdout("no SQL injection vulnerability found")
+
                 option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
                 while option != 'Y' and option != 'N':
                     option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
@@ -95,10 +97,17 @@ if __name__ == "__main__":
 
                 # crawl and scan the links
                 # if crawl cannot find links, do some reverse domain
-                urls = crawler.crawl(args.t)
-                if not massivescan(urls):
-                    print "TODO: IMPLEMENT REVERSE DOMAIN"
+                websites = crawler.crawl(args.t)
+                if not websites:
+                    io.stdout("found no suitable urls to test SQLi")
+                    io.stdout("you might want to do reverse domain")
                     exit(0)
+
+                io.stdout("found {} urls from crawling".format(len(websites)))
+                if not massivescan(websites):
+                    io.stdout("no SQL injection vulnerability found")
+                    exit(0)
+
 
     except KeyboardInterrupt:
         io.stderr("exiting program...")

@@ -12,10 +12,8 @@ def crawl(url):
 
     if html:
         domain = urlparse(url).netloc if urlparse(url).netloc != '' else urlparse(url).path.split("/")[0]
-        print "Domain: " + domain
 
         for link in re.findall('<a href="(.*?)"', html):
-
             # www.example.com/index.(php|aspx|jsp)?query=1
             if re.search('(.*?)(.php\?|.asp\?|.apsx\?|.jsp\?)(.*?)=(.*?)', link):
 
