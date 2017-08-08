@@ -8,6 +8,7 @@ import useragents
 
 def getHTML(url):
     """return HTML of the given url"""
+
     if not (url.startswith("http://") or url.startswith("https://")):
         url = "http://" + url
 
@@ -38,6 +39,7 @@ def getHTML(url):
 
 def scan(url):
     """check SQL injection vulnerability"""
+
     domain = url.split("?")[0]  # domain with path without queries
     queries = urlparse(url).query.split("&")
 
