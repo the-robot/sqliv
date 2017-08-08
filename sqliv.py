@@ -82,7 +82,7 @@ def initParser():
     global parser
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", help="SQL injection dork", type=str)
-    parser.add_argument("-e", help="search engine [Google | Duckduckgo]", type=str)
+    parser.add_argument("-e", help="search engine [Google only for now]", type=str)
     parser.add_argument("-p", help="number of websites to look for in search engine", type=int, default=10)
     parser.add_argument("-t", help="scan target website", type=str)
     parser.add_argument('-r', help="reverse domain", action='store_true')
