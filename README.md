@@ -32,8 +32,10 @@ python sqliv.py -t www.example.com/index.php?id=1
 python sqliv.py -t <URL> -r
 ```
 
-**python sqliv.py --help**
+**View help**
 ```python
+python sqliv.py --help
+
 usage: sqliv.py [-h] [-d D] [-e E] [-p P] [-t T] [-r]
 
 optional arguments:
