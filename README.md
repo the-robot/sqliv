@@ -2,6 +2,7 @@ SQLiv
 ===
 
 ### Massive SQL injection scanner  
+##### old project (sqlivulscan)  
 **Features**  
 1. multiple domain scanning with SQL injection dork
 2. targetted scanning by providing specific domain (with crawling)
@@ -19,8 +20,8 @@ SQLiv
 > - [termcolor](https://pypi.python.org/pypi/termcolor)  
 > - [google](https://pypi.python.org/pypi/google)
 
-**Pre-installed Systems**
-![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)
+**Pre-installed Systems**  
+![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png) [Black Arch Linux](https://blackarch.org/scanner.html)
 
 ---
 ### Quick Tutorial  
