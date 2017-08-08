@@ -11,6 +11,7 @@ def crawl(url):
     html = getHTML(url)
 
     if html:
+        # get only domain name
         domain = urlparse(url).netloc if urlparse(url).netloc != '' else urlparse(url).path.split("/")[0]
 
         for link in re.findall('<a href="(.*?)"', html):

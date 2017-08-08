@@ -1,9 +1,10 @@
 import argparse
+from urlparse import urlparse
 
 from src import search
 from src import scanner
 from src import crawler
-from src import reverse
+from src import reverseip
 from src import io
 
 
@@ -31,12 +32,48 @@ def massivescan(websites):
             vulnerables.append(website)
 
     if vulnerables:
-        io.stdout("vulnerable websites")
-        for each in vulnerables: print("- " + each)
-        return True
+        return vulnerables
 
     io.stdout("no vulnerable websites found")
     return False
+
+
+def singleScan(url):
+    """instance to scan single targeted domain"""
+
+    if urlparse(url).query != '':
+        io.stdout("scanning {}".format(url))
+
+        if scanner.scan(url):
+            print "[VUL] SQL injection vulnerability found"
+
+        else:
+            io.stdout("no SQL injection vulnerability found")
+
+            option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
+            while option != 'Y' and option != 'N':
+                option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
+
+            if option == 'N':
+                return False
+
+    # crawl and scan the links
+    # if crawl cannot find links, do some reverse domain
+    io.stdout("crawling {}".format(url))
+    websites = crawler.crawl(url)
+    if not websites:
+        io.stdout("found no suitable urls to test SQLi")
+        #io.stdout("you might want to do reverse domain")
+        return False
+
+    io.stdout("found {} urls from crawling".format(len(websites)))
+    vulnerables = massivescan(websites)
+
+    if vulnerables == []:
+        io.stdout("no SQL injection vulnerability found")
+        return False
+
+    return vulnerables
 
 
 def initParser():
@@ -45,70 +82,102 @@ def initParser():
     global parser
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", help="SQL injection dork", type=str)
-    parser.add_argument("-e", help="search engine [Google | Yandex]", type=str)
+    parser.add_argument("-e", help="search engine [Google | Duckduckgo]", type=str)
     parser.add_argument("-p", help="number of websites to look for in search engine", type=int, default=10)
     parser.add_argument("-t", help="scan target website", type=str)
-    parser.add_argument('-s', action='store_true')
+    parser.add_argument('-r', help="reverse domain", action='store_true')
 
 
 if __name__ == "__main__":
     initParser()
     args = parser.parse_args()
 
-    try:
-        if args.d is not None and args.e is not None:
-            io.stdout("searching for website with given dork")
+    # find random SQLi by dork
+    if args.d is not None and args.e is not None:
+        io.stdout("searching for website with given dork")
 
-            # get websites based on search engine
-            if args.e == "google":
-                websites = google.search(args.d, args.p)
-            else:
-                io.stderr("invalid search engine")
-                exit(1)
+        # get websites based on search engine
+        if args.e == "google":
+            websites = google.search(args.d, args.p)
+        else:
+            io.stderr("invalid search engine")
+            exit(1)
 
-            io.stdout("{} websites found".format(len(websites)))
+        io.stdout("{} websites found".format(len(websites)))
 
-            if not massivescan(websites):
-                io.stdout("you can still scan those websites by crawling or reverse domain.")
+        vulnerables = massivescan(websites)
+
+        if not vulnerables:
+            io.stdout("you can still scan those websites by crawling or reverse domain.")
+            option = io.stdin("do you want save search result? [Y/N]").upper()
+            while option != 'Y' and option != 'N':
                 option = io.stdin("do you want save search result? [Y/N]").upper()
-                while option != 'Y' and option != 'N':
-                    option = io.stdin("do you want save search result? [Y/N]").upper()
 
-                if option == 'Y':
-                    io.stdout("saved as searches.txt")
-                    io.dump(websites, "searches.txt")
-                    exit(0)
+            if option == 'Y':
+                io.stdout("saved as searches.txt")
+                io.dump(websites, "searches.txt")
 
-        elif args.t is not None and args.s:
-            io.stdout("scanning {}".format(args.t))
+            exit(0)
 
-            if scanner.scan(args.t):
-                print "[VUL] SQL injection vulnerability found"
-
-            else:
-                io.stdout("no SQL injection vulnerability found")
-
-                option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
-                while option != 'Y' and option != 'N':
-                    option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
-
-                if option == 'N':
-                    exit(0)
-
-                # crawl and scan the links
-                # if crawl cannot find links, do some reverse domain
-                websites = crawler.crawl(args.t)
-                if not websites:
-                    io.stdout("found no suitable urls to test SQLi")
-                    io.stdout("you might want to do reverse domain")
-                    exit(0)
-
-                io.stdout("found {} urls from crawling".format(len(websites)))
-                if not massivescan(websites):
-                    io.stdout("no SQL injection vulnerability found")
-                    exit(0)
+        io.stdout("vulnerable websites")
+        for url in vulnerables:
+            print("- " + url)
 
 
-    except KeyboardInterrupt:
-        io.stderr("exiting program...")
-        exit(1)
+    # do reverse domain of given site
+    elif args.t is not None and args.r:
+        io.stdout("finding domains with same server as {}".format(args.t))
+        domains = reverseip.reverseip(args.t)
+
+        if domains == []:
+            io.stdout("no domain found with reversing ip")
+            exit(0)
+
+        # if there are domains
+        io.stdout("found {} websites".format(len(domains)))
+        for domain in domains: print("- " + domain)
+
+        # ask whether user wants to save domains
+        io.stdout("scanning multiple websites with crawling will take long")
+        option = io.stdin("do you want save domains? [Y/N]").upper()
+        while option != 'Y' and option != 'N':
+            option = io.stdin("do you want save domains? [Y/N]").upper()
+
+        if option == 'Y':
+            io.stdout("saved as domains.txt")
+            io.dump(domains, "domains.txt")
+
+        # ask whether user wants to crawl one by one or exit
+        option = io.stdin("do you want start crwaling? [Y/N]").upper()
+        while option != 'Y' and option != 'N':
+            option = io.stdin("do you want start crwaling? [Y/N]").upper()
+
+        if option == 'N':
+            exit(0)
+
+        vulnerables = []
+        for domain in domains:
+            vulnerables_temp = singleScan(domain)
+            if vulnerables_temp:
+                vulnerables += vulnerables_temp
+
+        io.stdout("finished scanning all reverse domains")
+        if vulnerables == []:
+            io.stdout("no vulnerables webistes from reverse domains")
+            exit(0)
+
+        io.stdout("vulnerable websites")
+        for url in vulnerables:
+            print("- " + url)
+
+
+    # scan SQLi of given site
+    elif args.t is not None:
+        vulnerables = singleScan(args.t)
+
+        if not vulnerables:
+            exit(0)
+
+        io.stdout("vulnerable websites")
+        for url in vulnerables:
+            print("- " + url)

@@ -23,6 +23,10 @@ def getHTML(url):
     except urllib2.URLError, e:
         print >> sys.stderr, "URL error, {}".format(e.reason)
 
+    except KeyboardInterrupt:
+        print >> sys.stderr, "Program interrupted"
+        exit(1)
+
     except:
         print >> sys.stderr, "HTTP exception"
 
@@ -30,6 +34,7 @@ def getHTML(url):
         return reply.read()
 
     return False
+
 
 def scan(url):
     """check SQL injection vulnerability"""
@@ -41,7 +46,7 @@ def scan(url):
         return False
 
     for query in range(len(queries)):
-        queries_temp = queries[:]  # clone queries for temp
+        queries_temp = queries[:]  # copy queries for temp
         queries_temp[query] = queries_temp[query] + "'"
         website = domain + "?"
 
