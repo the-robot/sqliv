@@ -1,3 +1,10 @@
+# SQLiv v2.0
+# 09/08/2017
+# Ghost (github.com/Hadesy2k | www.hadesy2k.github.io)
+# official.ghost@tuta.io
+# GNU GPL <3.0>
+
+
 import argparse
 from urlparse import urlparse
 

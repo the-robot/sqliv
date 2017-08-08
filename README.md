@@ -19,6 +19,9 @@ SQLiv
 > - [termcolor](https://pypi.python.org/pypi/termcolor)  
 > - [google](https://pypi.python.org/pypi/google)
 
+**Pre-installed Systems**
+![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)
+
 ---
 ### Quick Tutorial  
 **1. Multiple domain scanning with SQLi dork**  
