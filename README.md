@@ -2,7 +2,7 @@ SQLiv
 ===
 
 ### Massive SQL injection scanner  
-##### old project (sqlivulscan)  
+##### old project ([sqlivulscan](https://github.com/Hadesy2k/sqlivulscan/tree/old))  
 **Features**  
 1. multiple domain scanning with SQL injection dork
 2. targetted scanning by providing specific domain (with crawling)
