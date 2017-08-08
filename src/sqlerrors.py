@@ -12,6 +12,7 @@ sql_errors = {
 
 def check(html):
     """check SQL error is in HTML or not"""
+
     for error in sql_errors.values():
         if error in html:
             return True
