@@ -37,10 +37,10 @@ python sqliv.py -t <URL> -r
 usage: sqliv.py [-h] [-d D] [-e E] [-p P] [-t T] [-r]
 
 optional arguments:
-  -h, --help \ show this help message and exit
-  -d D\ \ \ \ \ \ \ \ SQL injection dork
-  -e E\ \ \ \ \ \ \ \ search engine [Google only for now]
-  -p P\ \ \ \ \ \ \ \ number of websites to look for in search engine
-  -t T\ \ \ \ \ \ \ \ scan target website
-  -r\ \ \ \ \ \ \ \ \ reverse domain
+  -h, --help  show this help message and exit
+  -d D        SQL injection dork
+  -e E        search engine [Google only for now]
+  -p P        number of websites to look for in search engine
+  -t T        scan target website
+  -r          reverse domain
 ```
