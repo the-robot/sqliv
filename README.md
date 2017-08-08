@@ -1,15 +1,15 @@
 SQLiv
 ===
 
-### Massive SQL injection scanner
-**Features**
+### Massive SQL injection scanner  
+**Features**  
 1. multiple domain scanning with SQL injection dork
 2. targetted scanning by providing specific domain (with crawling)
 4. reverse domain scanning
 
 ---
 
-**Installation**
+**Installation**  
 1. git clone https://github.com/Hadesy2k/sqlivulscan.git
 2. sudo pip install -r requirements.txt
 3. python sqliv.py --help
@@ -20,7 +20,7 @@ SQLiv
 > - [google](https://pypi.python.org/pypi/google)
 
 ---
-
+### Quick Tutorial  
 **1. Multiple domain scanning with SQLi dork**  
 - it simply search multiple websites from given dork and scan the results one by one
 ```python
@@ -38,13 +38,13 @@ python sqliv.py -t www.example.com
 python sqliv.py -t www.example.com/index.php?id=1  
 ```
 
-**3. Reverse domain and scanning**
+**3. Reverse domain and scanning**  
 - do reverse domain and look for websites that hosted on same server as target url
 ```python
 python sqliv.py -t <URL> -r
 ```
 
-**View help**
+**View help**  
 ```python
 python sqliv.py --help
 
