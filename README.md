@@ -20,6 +20,8 @@ python sqliv.py -d "inurl:index.php?id=" -e google
 - can provide only domain name or specifc url with query params
 - if only domain name is provided, it will crawl and get urls with query
 - then scan the urls one by one
-> python sqliv.py -t <URL>  
-> python sqliv.py -t www.example.com  
-> python sqliv.py -t www.example.com/index.php?id=1  
+```sh
+python sqliv.py -t <URL>  
+python sqliv.py -t www.example.com  
+python sqliv.py -t www.example.com/index.php?id=1  
+```
