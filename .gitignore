@@ -1,0 +1,9 @@
+gitpush
+bin/
+include/
+lib/
+local/
+OldProject
+pip-selfcheck.json
+cli
+*.pyc
