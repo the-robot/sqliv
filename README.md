@@ -15,9 +15,9 @@ SQLiv
 3. python sqliv.py --help
 
 > Dependencies  
-- [bs4](https://pypi.python.org/pypi/bs4)  
-- [termcolor](https://pypi.python.org/pypi/termcolor)  
-- [google](https://pypi.python.org/pypi/google)
+> - [bs4](https://pypi.python.org/pypi/bs4)  
+> - [termcolor](https://pypi.python.org/pypi/termcolor)  
+> - [google](https://pypi.python.org/pypi/google)
 
 ---
 
