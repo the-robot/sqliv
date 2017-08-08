@@ -11,8 +11,10 @@ SQLiv
 
 **1. Multiple domain scanning with SQLi dork**  
 - it simply search multiple websites from given dork and scan the results one by one
-> python sqliv.py -d <SQLI DORK> -e <SEARCH ENGINE>  
-> python sqliv.py -d "inurl:index.php?id=" -e google  
+```python
+python sqliv.py -d <SQLI DORK> -e <SEARCH ENGINE>  
+python sqliv.py -d "inurl:index.php?id=" -e google  
+```
 
 **2. Targetted scanning**  
 - can provide only domain name or specifc url with query params
