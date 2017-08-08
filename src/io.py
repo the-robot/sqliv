@@ -17,7 +17,7 @@ def stdout(message):
 
 
 def stderr(message):
-    """print n error for user in console"""
+    """print an error for user in console"""
     symbol = colored("[ERR]", "red")
     currentime = colored("[{}]".format(time.strftime("%H:%M:%S")), "green")
     print "{} {} {}".format(symbol, currentime, message)
