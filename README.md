@@ -21,7 +21,7 @@ SQLiv
 > - [google](https://pypi.python.org/pypi/google)
 
 **Pre-installed Systems**  
-[BlackArch Linux](https://blackarch.org/scanner.html) ![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)
+- [BlackArch Linux](https://blackarch.org/scanner.html) ![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)
 
 
 ---
