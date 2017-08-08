@@ -9,6 +9,18 @@ SQLiv
 
 ---
 
+**Installation**
+1. git clone https://github.com/Hadesy2k/sqlivulscan.git
+2. sudo pip install -r requirements.txt
+3. python sqliv.py --help
+
+> Dependencies  
+- [bs4](https://pypi.python.org/pypi/bs4)  
+- [termcolor](https://pypi.python.org/pypi/termcolor)  
+- [google](https://pypi.python.org/pypi/google)
+
+---
+
 **1. Multiple domain scanning with SQLi dork**  
 - it simply search multiple websites from given dork and scan the results one by one
 ```python
