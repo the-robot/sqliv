@@ -63,3 +63,10 @@ optional arguments:
   -t T        scan target website
   -r          reverse domain
 ```
+
+---
+
+### Development
+**TODO**
+1. Duckduckgo Search engine
+2. POST form SQLi vulnerability testing
