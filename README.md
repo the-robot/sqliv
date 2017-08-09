@@ -12,7 +12,7 @@ SQLiv
 
 **Installation**  
 1. git clone https://github.com/Hadesy2k/sqlivulscan.git
-2. sudo python setup.py
+2. sudo python2 setup.py -i
 
 > Dependencies  
 > - [bs4](https://pypi.python.org/pypi/bs4)  
