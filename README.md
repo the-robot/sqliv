@@ -22,6 +22,7 @@ SQLiv
 **Pre-installed Systems**  
 - [BlackArch Linux](https://blackarch.org/scanner.html) ![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)
 
+> screenshots at the bottom  
 
 ---
 ### Quick Tutorial  
@@ -62,6 +63,12 @@ optional arguments:
   -t T        scan target website
   -r          reverse domain
 ```
+
+---
+### screenshots
+![1](https://raw.githubusercontent.com/Hadesy2k/sqlivulscan/alpha/screenshots/1.png)
+![2](https://raw.githubusercontent.com/Hadesy2k/sqlivulscan/alpha/screenshots/2.png)
+![3](https://raw.githubusercontent.com/Hadesy2k/sqlivulscan/alpha/screenshots/3.png)
 
 ---
 
