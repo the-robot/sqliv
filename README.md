@@ -8,6 +8,8 @@ SQLiv
 2. targetted scanning by providing specific domain (with crawling)
 4. reverse domain scanning
 
+> quick tutorial & screenshots are shown at the bottom  
+
 ---
 
 **Installation**  
@@ -21,8 +23,6 @@ SQLiv
 
 **Pre-installed Systems**  
 - [BlackArch Linux](https://blackarch.org/scanner.html) ![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)
-
-> screenshots at the bottom  
 
 ---
 ### Quick Tutorial  
