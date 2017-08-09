@@ -1,6 +1,7 @@
+import argparse
 import os
 import stat
-import argparse
+import pip
 from shutil import copy2
 from distutils.dir_util import copy_tree
 
@@ -67,6 +68,10 @@ if __name__ == "__main__":
         os.mkdir(FILE_PATH + "/libs")
         copy_tree("libs", FILE_PATH + "/libs")
 
+        # install dependencies
+        for lib in dependencies:
+            pip.main(["install", lib])
+
         # add executable
         with open(EXEC_PATH, 'w') as installer:
             installer.write(exec_script)
@@ -76,7 +81,7 @@ if __name__ == "__main__":
         os.chmod(EXEC_PATH, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
 
         print "installation finished"
-        print "files are installed under " + FILE_PATH + "\n"
+        print "files are installed under " + FILE_PATH
         print "run: sqliv --help"
 
     else:
