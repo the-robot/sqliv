@@ -13,7 +13,7 @@ __version__ = "2.0"
 
 
 # script dependencies
-dependencies = ["bs4", "termcolor"]
+dependencies = ["bs4", "termcolor", "terminaltables"]
 
 # installation directory PATH
 FILE_PATH = "/usr/share/sqliv"
