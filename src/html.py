@@ -15,7 +15,7 @@ def getHTML(url):
     request = urllib2.Request(url, None, header)
 
     try:
-        reply = urllib2.urlopen(request)
+        reply = urllib2.urlopen(request, timeout=10)
 
     except urllib2.HTTPError, e:
         #print >> sys.stderr, "[{}] HTTP error".format(e.code)

@@ -31,8 +31,6 @@ google = search.Google()
 def massiveScan(websites):
     """scan multiple websites / urls"""
 
-    i = 0
-
     # scan each website one by one
     vulnerables = []
     for website in websites:
@@ -123,14 +121,22 @@ if __name__ == "__main__":
 
     # find random SQLi by dork
     if args.d is not None and args.e is not None:
-        io.stdout("searching for website with given dork")
+        io.stdout("searching for websites with given dork")
 
+        """
         # get websites based on search engine
         if args.e == "google":
             websites = google.search(args.d, args.p)
         else:
             io.stderr("invalid search engine")
             exit(1)
+        """
+
+        websites = ["http://www.sallatykka.com/web/index.php?id=31",
+        "http://www.icdcprague.org/index.php?id=10",
+        "http://www.tadspec.com/index.php?id=15",
+        "http://www.redseahotels.com/index.php?id=289"
+        ]
 
         io.stdout("{} websites found".format(len(websites)))
 
@@ -149,7 +155,13 @@ if __name__ == "__main__":
             exit(0)
 
         io.stdout("vulnerable websites")
-        io.printVulnerables(vulnerables)
+
+        table_data = []
+        for each in vulnerables:
+            server_info = serverinfo.check(each)
+            table_data.append([each, server_info[0], server_info[1]])
+
+        io.printVulnerablesWithInfo(table_data)
 
 
     # do reverse domain of given site
@@ -194,7 +206,13 @@ if __name__ == "__main__":
             exit(0)
 
         io.stdout("vulnerable websites")
-        io.printVulnerables(vulnerables)
+
+        table_data = []
+        for each in vulnerables:
+            server_info = serverinfo.check(each)
+            table_data.append(each, server_info[0], server_info[1])
+
+        io.printVulnerablesWithInfo(table_data)
 
 
     # scan SQLi of given site
