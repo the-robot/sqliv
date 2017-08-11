@@ -1,40 +1,8 @@
 import sys
-import urllib2
 from urlparse import urlparse
 
 import sqlerrors
-import useragents
-
-
-def getHTML(url):
-    """return HTML of the given url"""
-
-    if not (url.startswith("http://") or url.startswith("https://")):
-        url = "http://" + url
-
-    header = useragents.get()
-    request = urllib2.Request(url, None, header)
-
-    try:
-        reply = urllib2.urlopen(request)
-
-    except urllib2.HTTPError, e:
-        print >> sys.stderr, "[{}] HTTP error".format(e.code)
-
-    except urllib2.URLError, e:
-        print >> sys.stderr, "URL error, {}".format(e.reason)
-
-    except KeyboardInterrupt:
-        print >> sys.stderr, "Program interrupted"
-        exit(1)
-
-    except:
-        print >> sys.stderr, "HTTP exception"
-
-    else:
-        return reply.read()
-
-    return False
+import html
 
 
 def scan(url):
@@ -58,8 +26,8 @@ def scan(url):
             else:
                 website += each
 
-        html = getHTML(website)
-        if html and sqlerrors.check(html):
+        result = html.getHTML(website)
+        if result and sqlerrors.check(result):
             return True
 
     return False
