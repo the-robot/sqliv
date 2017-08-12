@@ -9,6 +9,7 @@ SQLiv
 4. reverse domain scanning
 
 > quick tutorial & screenshots are shown at the bottom  
+> project contribution tips at the bottom  
 
 ---
 
