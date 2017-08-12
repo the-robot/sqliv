@@ -123,20 +123,12 @@ if __name__ == "__main__":
     if args.dork != None and args.engine != None:
         io.stdout("searching for websites with given dork")
 
-        """
         # get websites based on search engine
         if args.engine == "google":
             websites = google.search(args.dork, args.page)
         else:
             io.stderr("invalid search engine")
             exit(1)
-        """
-
-        websites = ["http://www.sallatykka.com/web/index.php?id=31",
-        "http://www.icdcprague.org/index.php?id=10",
-        "http://www.tadspec.com/index.php?id=15",
-        "http://www.redseahotels.com/index.php?id=289"
-        ]
 
         io.stdout("{} websites found".format(len(websites)))
 
