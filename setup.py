@@ -34,7 +34,7 @@ def metadata():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-i", help="install sqliv in the system",  action='store_true')
+    parser.add_argument("-i", "--install", help="install sqliv in the system",  action='store_true')
     args = parser.parse_args()
 
     if os.name == "nt":
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         exit(1)
 
     # full installation
-    if args.i:
+    if args.install:
         # file installation process
         os.mkdir(FILE_PATH)
         copy2("sqliv.py", FILE_PATH)
