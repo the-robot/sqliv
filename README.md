@@ -86,5 +86,5 @@ optional arguments:
 2. always send the pull request to `alpha`
 
 **TODO**  
-1. Duckduckgo Search engine
+1. Duckduckgo search engine
 2. POST form SQLi vulnerability testing
