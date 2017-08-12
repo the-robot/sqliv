@@ -85,6 +85,6 @@ optional arguments:
 1. `alpha` branch is to test new features and functions
 2. always send the pull request to `alpha`
 
-*TODO*  
-1. Duckduckgo Search engine
+**TODO**  
+1. Duckduckgo search engine
 2. POST form SQLi vulnerability testing
