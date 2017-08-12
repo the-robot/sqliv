@@ -108,11 +108,11 @@ def initParser():
 
     global parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", help="SQL injection dork", type=str)
-    parser.add_argument("-e", help="search engine [Google only for now]", type=str)
-    parser.add_argument("-p", help="number of websites to look for in search engine", type=int, default=10)
-    parser.add_argument("-t", help="scan target website", type=str)
-    parser.add_argument('-r', help="reverse domain", action='store_true')
+    parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:xxx")
+    parser.add_argument("-e", dest="engine", help="search engine [Google only for now]", type=str, metavar="google")
+    parser.add_argument("-p", dest="page", help="number of websites to look for in search engine", type=int, default=10, metavar="100")
+    parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.xxx.com")
+    parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
 
 
 if __name__ == "__main__":
@@ -120,13 +120,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # find random SQLi by dork
-    if args.d is not None and args.e is not None:
+    if args.dork != None and args.engine != None:
         io.stdout("searching for websites with given dork")
 
         """
         # get websites based on search engine
-        if args.e == "google":
-            websites = google.search(args.d, args.p)
+        if args.engine == "google":
+            websites = google.search(args.dork, args.page)
         else:
             io.stderr("invalid search engine")
             exit(1)
@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
 
     # do reverse domain of given site
-    elif args.t is not None and args.r:
+    elif args.target != None and args.reverse:
         io.stdout("finding domains with same server as {}".format(args.t))
         domains = reverseip.reverseip(args.t)
 
@@ -216,8 +216,8 @@ if __name__ == "__main__":
 
 
     # scan SQLi of given site
-    elif args.t:
-        vulnerables = singleScan(args.t)
+    elif args.target:
+        vulnerables = singleScan(args.target)
 
         if not vulnerables:
             exit(0)
