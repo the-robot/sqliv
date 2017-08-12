@@ -73,6 +73,17 @@ optional arguments:
 ---
 
 ### Development
-**TODO**
+**Contribution**
+*Coding Format*
+1. Please put a space between function/class documentation and code
+2. camelCase for functions and CamelCase for classes
+3. local variables must be with variable_with_underscore
+4. global variables must be all UPPERCASE_VARIABLE
+
+*Pull Request*
+1. `alpha` branch is to test new features and functions
+2. always send the pull request to `alpha`
+
+*TODO*
 1. Duckduckgo Search engine
 2. POST form SQLi vulnerability testing
