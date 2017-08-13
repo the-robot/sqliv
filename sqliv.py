@@ -34,7 +34,7 @@ def massiveScan(websites):
     # scan each website one by one
     vulnerables = []
     for website in websites:
-        io.stdout("scanning {}".format(website), end="")
+        io.stdout("[{:0>2}/{}] scanning {}".format(websites.index(website)+1, len(websites), website), end="")
         if scanner.scan(website):
             io.showsign(" vulnerable")
             vulnerables.append(website)
@@ -158,8 +158,8 @@ if __name__ == "__main__":
 
     # do reverse domain of given site
     elif args.target != None and args.reverse:
-        io.stdout("finding domains with same server as {}".format(args.t))
-        domains = reverseip.reverseip(args.t)
+        io.stdout("finding domains with same server as {}".format(args.target))
+        domains = reverseip.reverseip(args.target)
 
         if domains == []:
             io.stdout("no domain found with reversing ip")
@@ -215,7 +215,7 @@ if __name__ == "__main__":
             exit(0)
 
         # show domain information of target urls
-        showDomainInfo([args.t])
+        showDomainInfo([args.target])
 
         io.stdout("vulnerable websites")
         io.printVulnerables(vulnerables)
