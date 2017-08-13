@@ -26,8 +26,7 @@ def getHTML(url):
         pass
 
     except KeyboardInterrupt:
-        print >> sys.stderr, "Program interrupted"
-        exit(1)
+        raise KeyboardInterrupt
 
     except:
         #print >> sys.stderr, "HTTP exception"
