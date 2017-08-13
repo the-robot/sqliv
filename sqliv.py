@@ -92,7 +92,7 @@ def singleScan(url):
         #io.stdout("you might want to do reverse domain")
         return False
 
-    io.stdout("found {} urls from crawling".format(len(websites)))
+    io.stdout("found {} urls from crawling".format(len(urls)))
     vulnerables = massiveScan(urls)
 
     if vulnerables == []:
@@ -130,7 +130,11 @@ def showDomainInfo(urls):
     domains_info = []
 
     for each in urls:
-        server_info = serverinfo.check(each)
+        try:
+            server_info = serverinfo.check(each)
+        except KeyboardInterrupt:
+            server_info = ["-", "-"]
+
         domains_info.append([each, server_info[0], server_info[1]])
 
     # print in table
@@ -180,7 +184,7 @@ if __name__ == "__main__":
 
             exit(0)
 
-        io.stdout("vulnerable websites")
+        io.stdout("scanning server information")
         table_data = getServerInfo(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
@@ -226,7 +230,7 @@ if __name__ == "__main__":
             io.stdout("no vulnerables webistes from reverse domains")
             exit(0)
 
-        io.stdout("vulnerable websites")
+        io.stdout("scanning server information")
         table_data = getServerInfo(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
@@ -241,5 +245,5 @@ if __name__ == "__main__":
         # show domain information of target urls
         showDomainInfo([args.target])
 
-        io.stdout("vulnerable websites")
+        io.stdout("scanning server information")
         io.printVulnerables(vulnerables)
