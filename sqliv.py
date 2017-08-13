@@ -244,6 +244,5 @@ if __name__ == "__main__":
 
         # show domain information of target urls
         showDomainInfo([args.target])
-
-        io.stdout("scanning server information")
+        print ""  # give space between two table
         io.printVulnerables(vulnerables)
