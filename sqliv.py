@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
             exit(0)
 
-        io.stdout("vulnerable websites")
+        io.stdout("scanning server information")
         table_data = getServerInfo(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
@@ -226,7 +226,7 @@ if __name__ == "__main__":
             io.stdout("no vulnerables webistes from reverse domains")
             exit(0)
 
-        io.stdout("vulnerable websites")
+        io.stdout("scanning server information")
         table_data = getServerInfo(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
@@ -241,5 +241,5 @@ if __name__ == "__main__":
         # show domain information of target urls
         showDomainInfo([args.target])
 
-        io.stdout("vulnerable websites")
+        io.stdout("scanning server information")
         io.printVulnerables(vulnerables)
