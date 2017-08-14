@@ -6,7 +6,10 @@ SQLiv
 **Features**  
 1. multiple domain scanning with SQL injection dork
 2. targetted scanning by providing specific domain (with crawling)
-4. reverse domain scanning
+3. reverse domain scanning
+
+> both SQLi scanning and domain info checking are done in multiprocessing  
+> so the script is super fast at scanning many urls
 
 > quick tutorial & screenshots are shown at the bottom  
 > project contribution tips at the bottom  
