@@ -54,12 +54,10 @@ def multiScan(urls):
             time.sleep(0.5)
             if all([job.ready() for job in jobs]):
                 break
-
     except KeyboardInterrupt:
         io.stderr("stopping sqli scanning process")
         pool.terminate()
         pool.join()
-
     else:
         pool.close()
         pool.join()
