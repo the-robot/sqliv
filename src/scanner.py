@@ -24,7 +24,7 @@ def scan(urls):
     for url in urls:
         def callback(result, url=url):
             results[url] = result
-        childs.append(pool.apply_async(checkSQLi, (url, ), callback=callback))
+        childs.append(pool.apply_async(__checkSQLi, (url, ), callback=callback))
 
     try:
         while True:
@@ -46,7 +46,7 @@ def scan(urls):
     return vulnerables
 
 
-def checkSQLi(url):
+def __checkSQLi(url):
     """check SQL injection vulnerability"""
 
     io.stdout("scanning {}".format(url), end="")

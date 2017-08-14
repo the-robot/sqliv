@@ -26,7 +26,7 @@ def check(urls):
     for url in urls:
         def callback(result, url=url):
             results[url] = result
-        childs.append(pool.apply_async(getServerInfo, (url, ), callback=callback))
+        childs.append(pool.apply_async(__getServerInfo, (url, ), callback=callback))
 
     try:
         while True:
@@ -54,7 +54,7 @@ def check(urls):
     return domains_info
 
 
-def getServerInfo(url):
+def __getServerInfo(url):
     """get server name and version of given domain"""
 
     url = urlparse(url).netloc if urlparse(url).netloc != '' else urlparse(url).path.split("/")[0]
