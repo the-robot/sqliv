@@ -24,10 +24,6 @@ src/io
 - their printing format '[CODE] [CURRENTTIME] [MESSAGE]'
 """
 
-# process intruption SIGNALS
-# what to do depends on SIGNAL
-SAVE_AND_EXIT = "SAVE_AND_EXIT"
-
 # search engine instance
 google = search.Google()
 
@@ -115,6 +111,7 @@ def getServerInfo(urls):
             except KeyboardInterrupt:
                 skip = True
                 io.stdout("skipping server info scanning process")
+                server_info = ['-', '-']
         else:
             server_info = ['-', '-']
 
