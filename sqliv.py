@@ -34,7 +34,7 @@ def singleScan(url):
     if urlparse(url).query != '':
         if scanner.scan(url):
             # scanner.scan print if vulnerable
-            # therefore exit 
+            # therefore exit
             exit(0)
 
         else:
@@ -72,20 +72,15 @@ def getServerInfo(urls):
     """get server information of given url and return as array"""
 
     table_data = []
-    skip = False  # skip getting server info
+    results = serverinfo.multiCheck(urls)
 
-    for each in urls:
-        if not skip:
-            try:
-                server_info = serverinfo.check(each)
-            except KeyboardInterrupt:
-                skip = True
-                io.stdout("skipping server info scanning process")
-                server_info = ['-', '-']
-        else:
-            server_info = ['-', '-']
+    for url in urls:
+        if url in results.keys():
+            data = results.get(url)
+            table_data.append([url, data[0], data[1]])
+            continue
 
-        table_data.append([each, server_info[0], server_info[1]])
+        table_data.append([url, '-', '-'])
 
     return table_data
 
