@@ -1,4 +1,3 @@
-import sys
 from urlparse import urlparse
 
 import sqlerrors
