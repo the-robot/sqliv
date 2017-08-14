@@ -1,9 +1,15 @@
+import time
+import signal
 import multiprocessing
 from urlparse import urlparse
 
 import io
 import sqlerrors
 import html
+
+
+def initChild():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
 
 
 def scan(url):
@@ -31,12 +37,33 @@ def scan(url):
 def multiScan(urls):
     """scan multiple websites with multi processing"""
 
-    vulnerables = []  # store vulnerable websites
-    max_processes = multiprocessing.cpu_count() * 2
-    data = multiprocessing.Pool(max_processes).map(scan, urls)
+    vulnerables = []
 
-    for each in zip(data, urls):
-        if each[0] == True:
-            vulnerables.append(each[1])
+    jobs = []  # store child processes
+    results = {}  # store scanned results
+    max_processes = multiprocessing.cpu_count() * 2
+    pool = multiprocessing.Pool(max_processes, initChild)
+
+    for url in urls:
+        def callback(result, url=url):
+            results[url] = result
+        jobs.append(pool.apply_async(scan, (url, ), callback=callback))
+
+    try:
+        while True:
+            time.sleep(0.5)
+            if all([job.ready() for job in jobs]):
+                break
+    except KeyboardInterrupt:
+        io.stderr("stopping sqli scanning process")
+        pool.terminate()
+        pool.join()
+    else:
+        pool.close()
+        pool.join()
+
+    for url, result in results.items():
+        if result == True:
+            vulnerables.append(url)
 
     return vulnerables
