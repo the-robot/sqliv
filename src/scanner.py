@@ -8,32 +8,10 @@ import sqlerrors
 import html
 
 
-def scan(url):
-    """check SQL injection vulnerability"""
-
-    io.stdout("scanning {}".format(url), end="")
-
-    domain = url.split("?")[0]  # domain with path without queries
-    queries = urlparse(url).query.split("&")
-
-    # no queries in url
-    if not any(queries):
-        return False
-
-    website = domain + "?" + ("&".join([param + "'" for param in queries]))
-    result = html.getHTML(website)
-    if result and sqlerrors.check(result):
-        io.showsign(" vulnerable")
-        return True
-
-    print ""  # move cursor to new line
-    return False
-
-
 def initChild():
     signal.signal(signal.SIGINT, signal.SIG_IGN)
 
-def multiScan(urls):
+def scan(urls):
     """scan multiple websites with multi processing"""
 
     vulnerables = []
@@ -46,7 +24,7 @@ def multiScan(urls):
     for url in urls:
         def callback(result, url=url):
             results[url] = result
-        childs.append(pool.apply_async(scan, (url, ), callback=callback))
+        childs.append(pool.apply_async(checkSQLi, (url, ), callback=callback))
 
     try:
         while True:
@@ -66,3 +44,25 @@ def multiScan(urls):
             vulnerables.append(url)
 
     return vulnerables
+
+
+def checkSQLi(url):
+    """check SQL injection vulnerability"""
+
+    io.stdout("scanning {}".format(url), end="")
+
+    domain = url.split("?")[0]  # domain with path without queries
+    queries = urlparse(url).query.split("&")
+
+    # no queries in url
+    if not any(queries):
+        return False
+
+    website = domain + "?" + ("&".join([param + "'" for param in queries]))
+    result = html.getHTML(website)
+    if result and sqlerrors.check(result):
+        io.showsign(" vulnerable")
+        return True
+
+    print ""  # move cursor to new line
+    return False
