@@ -28,47 +28,16 @@ src/io
 google = search.Google()
 
 
-def massiveScan(websites):
-    """scan multiple websites / urls"""
-
-    # scan each website one by one
-    vulnerables = []
-    for website in websites:
-        io.stdout("scanning {:0>2}/{} {}".format(websites.index(website)+1, len(websites), website), end="")
-
-        try:
-            is_vulnerable = scanner.scan(website)
-        except KeyboardInterrupt:
-            print ""  # move carriage return to newline
-            io.stdout("process interrupted, skipping sqli scanning")
-            return vulnerables
-
-        if is_vulnerable:
-            io.showsign(" vulnerable")
-            vulnerables.append(website)
-            continue
-
-        print ""  # move carriage return to newline
-
-    if vulnerables:
-        return vulnerables
-
-    io.stdout("no vulnerable websites found")
-    return False
-
-
 def singleScan(url):
     """instance to scan single targeted domain"""
 
     if urlparse(url).query != '':
-        io.stdout("scanning {}".format(url), end="")
-
         if scanner.scan(url):
-            io.showsign(" vulnerable")
+            # scanner.scan print if vulnerable
+            # therefore exit here
             exit(0)
 
         else:
-            print ""  # move carriage return to newline
             io.stdout("no SQL injection vulnerability found")
 
             option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
@@ -89,7 +58,7 @@ def singleScan(url):
         return False
 
     io.stdout("found {} urls from crawling".format(len(urls)))
-    vulnerables = massiveScan(urls)
+    vulnerables = scanner.multiScan(urls)
 
     if vulnerables == []:
         io.stdout("no SQL injection vulnerability found")
@@ -167,7 +136,7 @@ if __name__ == "__main__":
 
         io.stdout("{} websites found".format(len(websites)))
 
-        vulnerables = massiveScan(websites)
+        vulnerables = scanner.multiScan(websites)
 
         if not vulnerables:
             io.stdout("you can still scan those websites by crawling or reverse domain.")

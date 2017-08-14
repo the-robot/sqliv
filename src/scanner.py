@@ -1,4 +1,3 @@
-#from pathos.multiprocessing import ProcessingPool
 import multiprocessing
 from urlparse import urlparse
 
@@ -33,8 +32,6 @@ def multiScan(urls):
     """scan multiple websites with multi processing"""
 
     vulnerables = []  # store vulnerable websites
-
-     #   data = ProcessingPool().map(scan, urls)
     max_processes = multiprocessing.cpu_count() * 2
     data = multiprocessing.Pool(max_processes).map(scan, urls)
 
