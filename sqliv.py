@@ -32,7 +32,7 @@ def singleScan(url):
     """instance to scan single targeted domain"""
 
     if urlparse(url).query != '':
-        if scanner.scan(url):
+        if scanner.scan([url]) != []:
             # scanner.scan print if vulnerable
             # therefore exit
             exit(0)
@@ -59,48 +59,13 @@ def singleScan(url):
         return False
 
     io.stdout("found {} urls from crawling".format(len(urls)))
-    vulnerables = scanner.multiScan(urls)
+    vulnerables = scanner.scan(urls)
 
     if vulnerables == []:
         io.stdout("no SQL injection vulnerability found")
         return False
 
     return vulnerables
-
-
-def getServerInfo(urls):
-    """get server information of given url and return as array"""
-
-    table_data = []
-    results = serverinfo.multiCheck(urls)
-
-    for url in urls:
-        if url in results.keys():
-            data = results.get(url)
-            table_data.append([url, data[0], data[1]])
-            continue
-
-        table_data.append([url, '-', '-'])
-
-    return table_data
-
-
-def showDomainInfo(urls):
-    """return array of urls with server info"""
-
-    io.stdout("getting server info of domains can take a few mins")
-    domains_info = []
-
-    for each in urls:
-        try:
-            server_info = serverinfo.check(each)
-        except KeyboardInterrupt:
-            server_info = ["-", "-"]
-
-        domains_info.append([each, server_info[0], server_info[1]])
-
-    # print in table
-    io.printServerInfo(domains_info)
 
 
 def initParser():
@@ -132,7 +97,7 @@ if __name__ == "__main__":
 
         io.stdout("{} websites found".format(len(websites)))
 
-        vulnerables = scanner.multiScan(websites)
+        vulnerables = scanner.scan(websites)
 
         if not vulnerables:
             io.stdout("you can still scan those websites by crawling or reverse domain.")
@@ -147,7 +112,7 @@ if __name__ == "__main__":
             exit(0)
 
         io.stdout("scanning server information")
-        table_data = getServerInfo(vulnerables)
+        table_data = serverinfo.check(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
 
@@ -205,6 +170,9 @@ if __name__ == "__main__":
             exit(0)
 
         # show domain information of target urls
-        showDomainInfo([args.target])
+        io.stdout("getting server info of domains can take a few mins")
+        table_data = serverinfo.check([args.target])
+
+        io.printServerInfo(table_data)
         print ""  # give space between two table
         io.printVulnerables(vulnerables)
