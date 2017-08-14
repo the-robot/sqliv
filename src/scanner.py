@@ -8,10 +8,6 @@ import sqlerrors
 import html
 
 
-def initChild():
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-
-
 def scan(url):
     """check SQL injection vulnerability"""
 
@@ -34,25 +30,28 @@ def scan(url):
     return False
 
 
+def initChild():
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+
 def multiScan(urls):
     """scan multiple websites with multi processing"""
 
     vulnerables = []
-
-    jobs = []  # store child processes
     results = {}  # store scanned results
+
+    childs = []  # store child processes
     max_processes = multiprocessing.cpu_count() * 2
     pool = multiprocessing.Pool(max_processes, initChild)
 
     for url in urls:
         def callback(result, url=url):
             results[url] = result
-        jobs.append(pool.apply_async(scan, (url, ), callback=callback))
+        childs.append(pool.apply_async(scan, (url, ), callback=callback))
 
     try:
         while True:
             time.sleep(0.5)
-            if all([job.ready() for job in jobs]):
+            if all([child.ready() for child in childs]):
                 break
     except KeyboardInterrupt:
         io.stderr("stopping sqli scanning process")
