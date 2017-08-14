@@ -1,4 +1,3 @@
-import sys
 from urlparse import urlparse
 
 import sqlerrors
@@ -15,19 +14,9 @@ def scan(url):
     if not any(queries):
         return False
 
-    for query in range(len(queries)):
-        queries_temp = queries[:]  # copy queries for temp
-        queries_temp[query] = queries_temp[query] + "'"
-        website = domain + "?"
-
-        for each in queries_temp:
-            if each != queries_temp[-1]:
-                website += each + "&"
-            else:
-                website += each
-
-        result = html.getHTML(website)
-        if result and sqlerrors.check(result):
-            return True
+    website = domain + "?" + ("&".join([param + "'" for param in queries]))
+    result = html.getHTML(website)
+    if result and sqlerrors.check(result):
+        return True
 
     return False
