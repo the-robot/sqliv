@@ -34,10 +34,11 @@ def singleScan(url):
     if urlparse(url).query != '':
         if scanner.scan(url):
             # scanner.scan print if vulnerable
-            # therefore exit here
+            # therefore exit 
             exit(0)
 
         else:
+            print ""  # move carriage return to newline
             io.stdout("no SQL injection vulnerability found")
 
             option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
