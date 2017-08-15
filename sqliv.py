@@ -1,5 +1,5 @@
 # SQLiv v2.0
-# 09/08/2017
+# 15/08/2017
 # Ghost (github.com/Hadesy2k | www.hadesy2k.github.io)
 # official.ghost@tuta.io
 # GNU GPL <3.0>
@@ -40,10 +40,7 @@ def singleScan(url):
         else:
             print ""  # move carriage return to newline
             io.stdout("no SQL injection vulnerability found")
-
-            option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
-            while option != 'Y' and option != 'N':
-                option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
+            option = io.stdin("do you want to crawl and continue scanning? [Y/N]", ["Y", "N"], upper=True)
 
             if option == 'N':
                 return False
@@ -101,9 +98,7 @@ if __name__ == "__main__":
 
         if not vulnerables:
             io.stdout("you can still scan those websites by crawling or reverse domain.")
-            option = io.stdin("do you want save search result? [Y/N]").upper()
-            while option != 'Y' and option != 'N':
-                option = io.stdin("do you want save search result? [Y/N]").upper()
+            option = io.stdin("do you want save search result? [Y/N]", ["Y", "N"], upper=True)
 
             if option == 'Y':
                 io.stdout("saved as searches.txt")
@@ -130,18 +125,14 @@ if __name__ == "__main__":
 
         # ask whether user wants to save domains
         io.stdout("scanning multiple websites with crawling will take long")
-        option = io.stdin("do you want save domains? [Y/N]").upper()
-        while option != 'Y' and option != 'N':
-            option = io.stdin("do you want save domains? [Y/N]").upper()
+        option = io.stdin("do you want save domains? [Y/N]", ["Y", "N"], upper=True)
 
         if option == 'Y':
             io.stdout("saved as domains.txt")
             io.dump(domains, "domains.txt")
 
         # ask whether user wants to crawl one by one or exit
-        option = io.stdin("do you want start crwaling? [Y/N]").upper()
-        while option != 'Y' and option != 'N':
-            option = io.stdin("do you want start crwaling? [Y/N]").upper()
+        option = io.stdin("do you want start crwaling? [Y/N]", ["Y", "N"], upper=True)
 
         if option == 'N':
             exit(0)
