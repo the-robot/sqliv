@@ -1,5 +1,5 @@
 # SQLiv v2.0
-# 09/08/2017
+# 15/08/2017
 # Ghost (github.com/Hadesy2k | www.hadesy2k.github.io)
 # official.ghost@tuta.io
 # GNU GPL <3.0>
@@ -40,10 +40,7 @@ def singleScan(url):
         else:
             print ""  # move carriage return to newline
             io.stdout("no SQL injection vulnerability found")
-
-            option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
-            while option != 'Y' and option != 'N':
-                option = io.stdin("do you want to crawl and continue scanning? [Y/N]").upper()
+            option = io.stdin("do you want to crawl and continue scanning? [Y/N]", ["Y", "N"], upper=True)
 
             if option == 'N':
                 return False
@@ -73,10 +70,10 @@ def initParser():
 
     global parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:xxx")
+    parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:example")
     parser.add_argument("-e", dest="engine", help="search engine [Google only for now]", type=str, metavar="google")
     parser.add_argument("-p", dest="page", help="number of websites to look for in search engine", type=int, default=10, metavar="100")
-    parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.xxx.com")
+    parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.example.com")
     parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
 
 
@@ -101,9 +98,7 @@ if __name__ == "__main__":
 
         if not vulnerables:
             io.stdout("you can still scan those websites by crawling or reverse domain.")
-            option = io.stdin("do you want save search result? [Y/N]").upper()
-            while option != 'Y' and option != 'N':
-                option = io.stdin("do you want save search result? [Y/N]").upper()
+            option = io.stdin("do you want save search result? [Y/N]", ["Y", "N"], upper=True)
 
             if option == 'Y':
                 io.stdout("saved as searches.txt")
@@ -130,18 +125,14 @@ if __name__ == "__main__":
 
         # ask whether user wants to save domains
         io.stdout("scanning multiple websites with crawling will take long")
-        option = io.stdin("do you want save domains? [Y/N]").upper()
-        while option != 'Y' and option != 'N':
-            option = io.stdin("do you want save domains? [Y/N]").upper()
+        option = io.stdin("do you want save domains? [Y/N]", ["Y", "N"], upper=True)
 
         if option == 'Y':
             io.stdout("saved as domains.txt")
             io.dump(domains, "domains.txt")
 
         # ask whether user wants to crawl one by one or exit
-        option = io.stdin("do you want start crwaling? [Y/N]").upper()
-        while option != 'Y' and option != 'N':
-            option = io.stdin("do you want start crwaling? [Y/N]").upper()
+        option = io.stdin("do you want start crwaling? [Y/N]", ["Y", "N"], upper=True)
 
         if option == 'N':
             exit(0)
@@ -176,3 +167,8 @@ if __name__ == "__main__":
         io.printServerInfo(table_data)
         print ""  # give space between two table
         io.printVulnerables(vulnerables)
+
+
+    # print help message, if no parameter is provided
+    else:
+        parser.print_help()

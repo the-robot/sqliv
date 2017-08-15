@@ -5,12 +5,28 @@ from termcolor import colored, cprint
 from terminaltables import SingleTable
 
 
-def stdin(message):
+def stdin(message, params, upper=False, lower=False):
     """ask for option/input from user"""
 
     symbol = colored("[OPT]", "magenta")
     currentime = colored("[{}]".format(time.strftime("%H:%M:%S")), "green")
-    return raw_input("{} {} {}: ".format(symbol, currentime, message))
+
+    option = raw_input("{} {} {}: ".format(symbol, currentime, message))
+
+    if upper:
+        option = option.upper()
+    elif lower:
+        option = option.lower()
+
+    while option not in params:
+        option = raw_input("{} {} {}: ".format(symbol, currentime, message))
+
+        if upper:
+            option = option.upper()
+        elif lower:
+            option = option.lower()
+
+    return option
 
 
 def stdout(message, end="\n"):
