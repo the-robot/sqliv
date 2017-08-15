@@ -70,10 +70,10 @@ def initParser():
 
     global parser
     parser = argparse.ArgumentParser()
-    parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:xxx")
+    parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:example")
     parser.add_argument("-e", dest="engine", help="search engine [Google only for now]", type=str, metavar="google")
     parser.add_argument("-p", dest="page", help="number of websites to look for in search engine", type=int, default=10, metavar="100")
-    parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.xxx.com")
+    parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.example.com")
     parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
 
 
@@ -167,3 +167,8 @@ if __name__ == "__main__":
         io.printServerInfo(table_data)
         print ""  # give space between two table
         io.printVulnerables(vulnerables)
+
+
+    # print help message, if no parameter is provided
+    else:
+        parser.print_help()
