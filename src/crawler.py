@@ -23,7 +23,7 @@ def crawl(url):
 
     if result:
         # get only domain name
-        domain = 'http://' + '/'.join(URL.split('/')[2:-1]) + '/'
+        domain = 'http://' + '/'.join(URL.split('/')[2:-1]) + '/' if len(URL.split('/')) >= 4 else URL.rstrip('/') + '/'
 
         for link in re.findall('<a href="(.*?)"', result):
             # www.example.com/index.(php|aspx|jsp)?query=1
