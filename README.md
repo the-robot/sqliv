@@ -14,10 +14,6 @@ SQLiv
 > quick tutorial & screenshots are shown at the bottom  
 > project contribution tips at the bottom  
 
-`Contributors`
-> [blackvkng](https://github.com/blackvkng)  
-> [the-c0d3r](https://github.com/the-c0d3r)  
-
 ---
 
 **Installation**  
@@ -81,6 +77,10 @@ optional arguments:
 ---
 
 ### Development
+**Contributors**  
+> [blackvkng](https://github.com/blackvkng)  
+> [the-c0d3r](https://github.com/the-c0d3r)  
+
 **Contribution**  
 *Coding Format*  
 1. Please put a space between function/class documentation and code
