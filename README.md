@@ -4,7 +4,7 @@ SQLiv
 ### Massive SQL injection scanner  
 ##### old project ([sqlivulscan](https://github.com/Hadesy2k/sqlivulscan/tree/old))  
 **Features**  
-1. multiple domain scanning with SQL injection dork
+1. multiple domain scanning with SQL injection dork by Google or Bing
 2. targetted scanning by providing specific domain (with crawling)
 3. reverse domain scanning
 
@@ -13,6 +13,10 @@ SQLiv
 
 > quick tutorial & screenshots are shown at the bottom  
 > project contribution tips at the bottom  
+
+`Contributors`
+> [blackvkng](https://github.com/blackvkng)
+> [the-c0d3r](https://github.com/the-c0d3r)
 
 ---
 
