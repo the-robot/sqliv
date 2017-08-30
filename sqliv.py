@@ -25,6 +25,7 @@ src/io
 """
 
 # search engine instance
+bing   = search.Bing()
 google = search.Google()
 
 
@@ -71,7 +72,7 @@ def initParser():
     global parser
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:example")
-    parser.add_argument("-e", dest="engine", help="search engine [Google only for now]", type=str, metavar="google")
+    parser.add_argument("-e", dest="engine", help="search engine [Google and Bing only for now]", type=str, metavar="google, bing")
     parser.add_argument("-p", dest="page", help="number of websites to look for in search engine", type=int, default=10, metavar="100")
     parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.example.com")
     parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
@@ -86,8 +87,8 @@ if __name__ == "__main__":
         io.stdout("searching for websites with given dork")
 
         # get websites based on search engine
-        if args.engine == "google":
-            websites = google.search(args.dork, args.page)
+        if args.engine in ["google", "bing"]:
+            websites = eval(args.engine).search(args.dork, args.page)
         else:
             io.stderr("invalid search engine")
             exit(1)
