@@ -133,7 +133,7 @@ if __name__ == "__main__":
             io.dump(domains, "domains.txt")
 
         # ask whether user wants to crawl one by one or exit
-        option = io.stdin("do you want start crwaling? [Y/N]", ["Y", "N"], upper=True)
+        option = io.stdin("do you want start crawling? [Y/N]", ["Y", "N"], upper=True)
 
         if option == 'N':
             exit(0)
@@ -150,7 +150,7 @@ if __name__ == "__main__":
             exit(0)
 
         io.stdout("scanning server information")
-        table_data = getServerInfo(vulnerables)
+        table_data = serverinfo.check(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
 
