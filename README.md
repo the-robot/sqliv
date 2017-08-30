@@ -15,8 +15,8 @@ SQLiv
 > project contribution tips at the bottom  
 
 `Contributors`
-> [blackvkng](https://github.com/blackvkng)
-> [the-c0d3r](https://github.com/the-c0d3r)
+> [blackvkng](https://github.com/blackvkng)  
+> [the-c0d3r](https://github.com/the-c0d3r)  
 
 ---
 
