@@ -7,7 +7,7 @@ def parameterControl(URL):
     for site in links:
         if URL.split("=")[0] in site:
             return False
-			
+                        
     return True
 
 def crawl(url):
@@ -17,9 +17,9 @@ def crawl(url):
     links = []
 
     try:
-        result, URL = html.getHTML(url, True)
-    except KeyboardInterrupt:
-        return links
+        result, URL = html.getHTML(url, lastURL=True)
+    except:
+        return None
 
     if result:
         # get only domain name
