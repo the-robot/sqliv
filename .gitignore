@@ -3,11 +3,6 @@ bin/
 include/
 lib/
 local/
-OldProject
 pip-selfcheck.json
 cli
 *.pyc
-
-libs/yandex.py
-libs/html.py
-libs/useragents.py
