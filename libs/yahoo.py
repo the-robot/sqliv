@@ -52,9 +52,3 @@ class Yahoo:
                       if a['href'] not in links]
 
         return links
-
-if __name__ == "__main__":
-    yahoo = Yahoo()
-    urls = yahoo.search("hello world", pages=1)
-
-    print urls
