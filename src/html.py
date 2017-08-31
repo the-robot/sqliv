@@ -1,4 +1,4 @@
-import sys
+#import sys
 import urllib2
 from urlparse import urlparse
 

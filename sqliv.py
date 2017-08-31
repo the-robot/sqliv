@@ -27,6 +27,7 @@ src/io
 # search engine instance
 bing   = search.Bing()
 google = search.Google()
+yahoo = search.Yahoo()
 
 
 def singleScan(url):
@@ -72,7 +73,7 @@ def initParser():
     global parser
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", dest="dork", help="SQL injection dork", type=str, metavar="inurl:example")
-    parser.add_argument("-e", dest="engine", help="search engine [Google and Bing only for now]", type=str, metavar="google, bing")
+    parser.add_argument("-e", dest="engine", help="search engine [Bing, Google, and Yahoo]", type=str, metavar="bing, google, yahoo")
     parser.add_argument("-p", dest="page", help="number of websites to look for in search engine", type=int, default=10, metavar="100")
     parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.example.com")
     parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
@@ -87,7 +88,7 @@ if __name__ == "__main__":
         io.stdout("searching for websites with given dork")
 
         # get websites based on search engine
-        if args.engine in ["google", "bing"]:
+        if args.engine in ["bing", "google", "yahoo"]:
             websites = eval(args.engine).search(args.dork, args.page)
         else:
             io.stderr("invalid search engine")
@@ -133,7 +134,7 @@ if __name__ == "__main__":
             io.dump(domains, "domains.txt")
 
         # ask whether user wants to crawl one by one or exit
-        option = io.stdin("do you want start crwaling? [Y/N]", ["Y", "N"], upper=True)
+        option = io.stdin("do you want start crawling? [Y/N]", ["Y", "N"], upper=True)
 
         if option == 'N':
             exit(0)
@@ -150,7 +151,7 @@ if __name__ == "__main__":
             exit(0)
 
         io.stdout("scanning server information")
-        table_data = getServerInfo(vulnerables)
+        table_data = serverinfo.check(vulnerables)
         io.printVulnerablesWithInfo(table_data)
 
 
