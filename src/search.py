@@ -4,16 +4,17 @@ import sys
 
 from libs import bing
 from libs import google
+from libs import yahoo
 from urllib2 import HTTPError, URLError
 
 bingsearch = bing.Bing()
+yahoosearch = yahoo.Yahoo()
 
 class Search:
     """basic search class that can be inherited by other search agents like Google, Yandex"""
     pass
 
 class Google(Search):
-    """search vulnerabilities by Google's dock"""
     def search(self, query, pages=10):
         """search and return an array of urls"""
 
@@ -35,6 +36,17 @@ class Bing(Search):
     def search(self, query, pages=10):
         try:
             return bingsearch.search(query, stop=pages)
+        except HTTPError:
+            exit("[503] Service Unreachable")
+        except URLError:
+            exit("[504] Gateway Timeout")
+        except:
+            exit("Unknown error occurred")
+
+class Yahoo(Search):
+    def search(self, query, pages=1):
+        try:
+            return yahoosearch.search(query, pages)
         except HTTPError:
             exit("[503] Service Unreachable")
         except URLError:
