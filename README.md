@@ -17,7 +17,7 @@ SQLiv
 ---
 
 **Installation**  
-1. git clone https://github.com/Hadesy2k/sqlivulscan.git
+1. git clone https://github.com/Hadesy2k/sqliv.git
 2. sudo python2 setup.py -i
 
 > Dependencies  
@@ -70,9 +70,9 @@ optional arguments:
 
 ---
 ### screenshots
-![1](https://raw.githubusercontent.com/Hadesy2k/sqlivulscan/alpha/screenshots/1.png)
-![2](https://raw.githubusercontent.com/Hadesy2k/sqlivulscan/alpha/screenshots/2.png)
-![3](https://raw.githubusercontent.com/Hadesy2k/sqlivulscan/alpha/screenshots/3.png)
+![1](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/1.png)
+![2](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/2.png)
+![3](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/3.png)
 
 ---
 
