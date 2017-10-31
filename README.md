@@ -2,7 +2,6 @@ SQLiv
 ===
 
 ### Massive SQL injection scanner  
-##### old project ([sqlivulscan](https://github.com/Hadesy2k/sqlivulscan/tree/old))  
 **Features**  
 1. multiple domain scanning with SQL injection dork by Bing, Google, or Yahoo
 2. targetted scanning by providing specific domain (with crawling)
@@ -77,17 +76,6 @@ optional arguments:
 ---
 
 ### Development
-**Contribution**  
-*Coding Format*  
-1. Please put a space between function/class documentation and code
-2. camelCase for functions and CamelCase for classes
-3. local variables must be with variable_with_underscore
-4. global variables must be all UPPERCASE_VARIABLE
-
-*Pull Request*  
-1. `alpha` branch is to test new features and functions
-2. always send the pull request to `alpha`
-
 **TODO**  
-1. Duckduckgo search engine
-2. POST form SQLi vulnerability testing
+1. POST form SQLi vulnerability testing
+2. Add more SQLi testing cases

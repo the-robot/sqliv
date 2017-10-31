@@ -2,9 +2,9 @@
 
 import sys
 
-from libs import bing
-from libs import google
-from libs import yahoo
+from lib import bing
+from lib import google
+from lib import yahoo
 from urllib2 import HTTPError, URLError
 
 bingsearch = bing.Bing()
@@ -29,8 +29,8 @@ class Google(Search):
             exit("[504] Gateway Timeout")
         except:
             exit("Unknown error occurred")
-
-        return urls
+        else:
+            return urls
 
 class Bing(Search):
     def search(self, query, pages=10):
