@@ -52,8 +52,8 @@ def install(file_path, exec_path):
     os.mkdir(file_path + "/src")
     copy_tree("src", file_path + "/src")
 
-    os.mkdir(file_path + "/libs")
-    copy_tree("libs", file_path + "/libs")
+    os.mkdir(file_path + "/lib")
+    copy_tree("lib", file_path + "/lib")
 
     # python dependencies with pip
     dependencies("install")
