@@ -1,8 +1,2 @@
-gitpush
-bin/
-include/
-lib/
-local/
 pip-selfcheck.json
-cli
 *.pyc
