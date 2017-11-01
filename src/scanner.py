@@ -55,6 +55,7 @@ def __sqli(url):
     queries = urlparse(url).query.split("&")
     # no queries in url
     if not any(queries):
+        print "" # move cursor to new line
         return False, None
 
     payloads = ("'", "')", "';", '"', '")', '";', '`', '`)', '`;', '\\', "%27", "%%2727", "%25%27", "%60", "%5C")
