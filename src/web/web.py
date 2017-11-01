@@ -13,11 +13,15 @@ def gethtml(url, lastURL=False):
 
     header = useragents.get()
     request = urllib2.Request(url, None, header)
+    html = None
 
     try:
         reply = urllib2.urlopen(request, timeout=10)
 
     except urllib2.HTTPError, e:
+        # read html content anyway for reply with HTTP500
+        if e.getcode() == 500:
+            html = e.read()
         #print >> sys.stderr, "[{}] HTTP error".format(e.code)
         pass
 
@@ -33,9 +37,12 @@ def gethtml(url, lastURL=False):
         pass
 
     else:
+        html = reply.read()
+
+    if html:
         if lastURL == True:
-            return (reply.read(), reply.url)
+            return (html, reply.url)
         else:
-            return reply.read()
+            return html
 
     return False
