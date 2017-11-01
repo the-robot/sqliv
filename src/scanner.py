@@ -56,7 +56,7 @@ def __sqli(url):
 
     # no queries in url
     if not any(queries):
-        return False
+        return False, None
 
     website = domain + "?" + ("&".join([param + "'" for param in queries]))
     source = web.gethtml(website)
