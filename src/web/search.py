@@ -1,11 +1,11 @@
 # search vulnerabilities by dock
 
 import sys
+from urllib2 import HTTPError, URLError
 
 from lib import bing
 from lib import google
 from lib import yahoo
-from urllib2 import HTTPError, URLError
 
 bingsearch = bing.Bing()
 yahoosearch = yahoo.Yahoo()
