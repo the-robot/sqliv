@@ -78,4 +78,3 @@ optional arguments:
 ### Development
 **TODO**  
 1. POST form SQLi vulnerability testing
-2. Add more SQLi testing cases
