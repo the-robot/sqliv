@@ -53,18 +53,19 @@ def __sqli(url):
 
     domain = url.split("?")[0]  # domain with path without queries
     queries = urlparse(url).query.split("&")
-
     # no queries in url
     if not any(queries):
         return False, None
 
-    website = domain + "?" + ("&".join([param + "'" for param in queries]))
-    source = web.gethtml(website)
-    if source:
-        vulnerable, db = sqlerrors.check(source)
-        if vulnerable and db != None:
-            io.showsign(" vulnerable")
-            return True, db
+    payloads = ("'", "')", "';", '"', '")', '";', '`', '`)', '`;', "%27", "%%2727", "%25%27")
+    for payload in payloads:
+        website = domain + "?" + ("&".join([param + payload for param in queries]))
+        source = web.gethtml(website)
+        if source:
+            vulnerable, db = sqlerrors.check(source)
+            if vulnerable and db != None:
+                io.showsign(" vulnerable")
+                return True, db
 
     print ""  # move cursor to new line
     return False, None
