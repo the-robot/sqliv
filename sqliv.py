@@ -155,6 +155,7 @@ if __name__ == "__main__":
             exit(0)
 
         io.stdout("scanning server information")
+
         vulnerableurls = [result[0] for result in vulnerables]
         table_data = serverinfo.check(vulnerableurls)
         # add db name to info
