@@ -18,8 +18,7 @@ def check(html):
     """check SQL error is in HTML or not"""
     for db, errors in sql_errors.items():
         for error in errors:
-            regexp = re.compile(error)
-            if regexp.search(html):
+            if re.compile(error).search(html):
                 #print "\n" + db
                 return True, db
     return False
