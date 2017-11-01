@@ -1,6 +1,6 @@
 import re
 
-
+# thanks Ekultek (https://github.com/Ekultek) for giving better idea of detection
 sql_errors = {
     "MySQL": (r"SQL syntax.*MySQL", r"Warning.*mysql_.*", r"MySQL Query fail.*"),
     "PostgreSQL": (r"PostgreSQL.*ERROR", r"Warning.*\Wpg_.*", r"Warning.*PostgreSQL"),
@@ -13,6 +13,7 @@ sql_errors = {
     "Informix": (r"Warning.*ibase_.*", r"com.informix.jdbc"),
     "Sybase": (r"Warning.*sybase.*", r"Sybase message")
 }
+
 
 def check(html):
     """check SQL error is in HTML or not"""
