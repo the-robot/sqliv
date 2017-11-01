@@ -5,7 +5,7 @@ from urlparse import urlparse
 import useragents
 
 
-def getHTML(url, lastURL=False):
+def gethtml(url, lastURL=False):
     """return HTML of the given url"""
 
     if not (url.startswith("http://") or url.startswith("https://")):

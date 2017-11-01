@@ -5,7 +5,7 @@ from urlparse import urlparse
 
 import io
 import sqlerrors
-import html
+from web import web
 
 
 def init():
@@ -59,7 +59,7 @@ def __sqli(url):
         return False
 
     website = domain + "?" + ("&".join([param + "'" for param in queries]))
-    source = html.getHTML(website)
+    source = web.gethtml(website)
     if source:
         vulnerable, db = sqlerrors.check(source)
         if vulnerable and db != None:

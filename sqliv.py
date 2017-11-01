@@ -1,19 +1,17 @@
 # SQLiv v2.0
-# 15/08/2017
-# Ghost (github.com/Hadesy2k | www.hadesy2k.github.io)
+# Ghost (github.com/Hadesy2k)
 # official.ghost@tuta.io
-# GNU GPL <3.0>
 
 
 import argparse
 from urlparse import urlparse
 
 from src import io
-from src import search
 from src import scanner
 from src import crawler
 from src import reverseip
 from src import serverinfo
+from src.web import search
 
 
 """

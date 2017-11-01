@@ -1,13 +1,13 @@
 import re
 from urlparse import urlparse
 
-import html
+from web import web
 
 def parameterControl(URL):
     for site in links:
         if URL.split("=")[0] in site:
             return False
-                        
+
     return True
 
 def crawl(url):
@@ -17,7 +17,7 @@ def crawl(url):
     links = []
 
     try:
-        result, URL = html.getHTML(url, lastURL=True)
+        result, URL = web.gethtml(url, lastURL=True)
     except:
         return None
 

@@ -6,7 +6,7 @@ import urllib2
 import json
 from urlparse import urlparse
 
-import useragents
+from web import useragents
 
 
 def reverseip(url):

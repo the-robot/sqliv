@@ -7,7 +7,7 @@ import bs4
 from urlparse import urlparse
 
 import io
-import html
+from web import web
 
 
 def init():
@@ -63,7 +63,7 @@ def __getserverinfo(url):
     url = "https://aruljohn.com/webserver/" + url
 
     try:
-        result = html.getHTML(url)
+        result = web.gethtml(url)
     except KeyboardInterrupt:
         raise KeyboardInterrupt
 
