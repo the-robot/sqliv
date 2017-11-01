@@ -57,7 +57,7 @@ def __sqli(url):
     if not any(queries):
         return False, None
 
-    payloads = ("'", "')", "';", '"', '")', '";', '`', '`)', '`;', "%27", "%%2727", "%25%27")
+    payloads = ("'", "')", "';", '"', '")', '";', '`', '`)', '`;', '\\', "%27", "%%2727", "%25%27", "%60", "%5C")
     for payload in payloads:
         website = domain + "?" + ("&".join([param + payload for param in queries]))
         source = web.gethtml(website)
