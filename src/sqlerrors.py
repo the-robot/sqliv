@@ -1,5 +1,6 @@
 import re
 
+# credit (https://github.com/Ekultek)
 sql_errors = {
     "MySQL": (r"SQL syntax.*MySQL", r"Warning.*mysql_.*", r".*MySQL Query fail.*", r"Fatal error.*:.*"),
     "PostgreSQL": (r"PostgreSQL.*ERROR", r"Warning.*\Wpg_.*"),
