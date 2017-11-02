@@ -22,4 +22,4 @@ def check(html):
             if re.compile(error).search(html):
                 #print "\n" + db
                 return True, db
-    return False
+    return False, None
