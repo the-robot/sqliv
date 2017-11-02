@@ -23,6 +23,7 @@ SQLiv
 > - [bs4](https://pypi.python.org/pypi/bs4)  
 > - [termcolor](https://pypi.python.org/pypi/termcolor)  
 > - [google](https://pypi.python.org/pypi/google)
+> - [nyawc](https://pypi.python.org/pypi/nyawc/)
 
 **Pre-installed Systems**  
 - [BlackArch Linux](https://blackarch.org/scanner.html) ![BlackArch](https://raw.githubusercontent.com/BlackArch/blackarch-artwork/master/logo/logo-38-49.png)

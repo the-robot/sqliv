@@ -1,37 +1,60 @@
 import re
 from urlparse import urlparse
 
-from web import web
+#import std
+from nyawc.Options import Options
+from nyawc.QueueItem import QueueItem
+from nyawc.Crawler import Crawler as nyawcCrawler
+from nyawc.CrawlerActions import CrawlerActions
+from nyawc.http.Request import Request
 
-def parameterControl(URL):
-    for site in links:
-        if URL.split("=")[0] in site:
-            return False
 
-    return True
+class Crawler:
+    def __init__(self):
+        self.links = []
+        self.crawler = None
+        self.setoptions()
 
-def crawl(url):
-    """crawl the links of the same given domain"""
-    global links
+    def crawl(self, url):
+        if self.crawler is None:
+            print "Cralwer is not setted up"
+            return
 
-    links = []
+        parsedurl = urlparse(url)
+        domain = parsedurl.scheme + "://" + parsedurl.netloc
 
-    try:
-        result, URL = web.gethtml(url, lastURL=True)
-    except:
-        return None
+        self.links = []
+        self.crawler.start_with(Request(domain))
+        return self.links
 
-    if result:
-        # get only domain name
-        domain = 'http://' + '/'.join(URL.split('/')[2:-1]) + '/' if len(URL.split('/')) >= 4 else URL.rstrip('/') + '/'
+    def setoptions(self, depth=1):
+        """Define how far user want to crawl"""
 
-        for link in re.findall('<a href="(.*?)"', result):
-            # www.example.com/index.(php|aspx|jsp)?query=1
-            if re.search('(.*?)(.php\?|.asp\?|.apsx\?|.jsp\?)(.*?)=(.*?)', link):
-                if parameterControl(link) == True:
-                    if link.startswith(("http", "www")) or domain in urlparse(link).path:
-                        links.append(link)
-                    else:
-                        links.append(domain + link if link.startswith("/") else domain + link)
+        options = Options()
+        options.scope.max_depth = depth
+        options.callbacks.crawler_before_start = self.crawlerstart
+        options.callbacks.crawler_after_finish = self.crawlerfinish
+        options.callbacks.request_before_start = self.requeststart
+        options.callbacks.request_after_finish = self.requestfinish
 
-    return links
+        self.crawler = nyawcCrawler(options)
+
+    def crawlerstart(self):
+        # Called before the crawler starts crawling. Default is a null route.
+        pass
+
+    def crawlerfinish(self, queue):
+        # Called after the crawler finished crawling. Default is a null route.
+        pass
+
+    def requeststart(self, queue, queue_item):
+        # Called before the crawler starts a new request. Default is a null route.
+        return CrawlerActions.DO_CONTINUE_CRAWLING
+
+    def requestfinish(self, queue, queue_item, new_queue_items):
+        # Called after the crawler finishes a request. Default is a null route.
+        url = queue_item.request.url
+        if re.search('(.*?)(.php\?|.asp\?|.apsx\?|.jsp\?)(.*?)=(.*?)', url):
+            if not url in self.links:
+                self.links.append(url)
+        return CrawlerActions.DO_CONTINUE_CRAWLING

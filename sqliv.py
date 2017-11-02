@@ -8,16 +8,19 @@ from urlparse import urlparse
 
 from src import std
 from src import scanner
-from src import crawler
 from src import reverseip
 from src import serverinfo
 from src.web import search
+from src.crawler import Crawler
 
 
 # search engine instance
 bing   = search.Bing()
 google = search.Google()
 yahoo = search.Yahoo()
+
+# crawler instance
+crawler = Crawler()
 
 
 def singlescan(url):
@@ -39,7 +42,7 @@ def singlescan(url):
 
     # crawl and scan the links
     # if crawl cannot find links, do some reverse domain
-    std.stdout("crawling {}".format(url))
+    std.stdout("going to crawl {}".format(url))
     urls = crawler.crawl(url)
 
     if not urls:
