@@ -92,7 +92,7 @@ if __name__ == "__main__":
         vulnerables = scanner.scan(websites)
 
         if not vulnerables:
-            io.stdout("you can still scan those websites by crawling or reverse domain.")
+            std.stdout("you can still scan those websites by crawling or reverse domain.")
             option = std.stdin("do you want save search result? [Y/N]", ["Y", "N"], upper=True)
 
             if option == 'Y':
