@@ -6,7 +6,7 @@ import multiprocessing
 import bs4
 from urlparse import urlparse
 
-import io
+import std
 from web import web
 
 
@@ -34,7 +34,7 @@ def check(urls):
             if all([child.ready() for child in childs]):
                 break
     except KeyboardInterrupt:
-        io.stderr("skipping server info scanning process")
+        std.stderr("skipping server info scanning process")
         pool.terminate()
         pool.join()
     else:
