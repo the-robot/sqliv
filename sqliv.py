@@ -27,10 +27,11 @@ def singlescan(url):
     """instance to scan single targeted domain"""
 
     if urlparse(url).query != '':
-        if scanner.scan([url]) != []:
+        result = scanner.scan([url])
+        if result != []:
             # scanner.scan print if vulnerable
             # therefore exit
-            exit(0)
+            return result
 
         else:
             print ""  # move carriage return to newline
