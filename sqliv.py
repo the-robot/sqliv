@@ -2,7 +2,6 @@
 # Ghost (github.com/Hadesy2k)
 # official.ghost@tuta.io
 
-import sys
 import argparse
 from urlparse import urlparse
 
