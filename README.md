@@ -53,6 +53,12 @@ python sqliv.py -t www.example.com/index.php?id=1
 python sqliv.py -t <URL> -r
 ```
 
+**4. Dumping scanned result**
+- you can dump the scanned results as json by giving this argument
+```python
+python sqliv.py -d <SQLI DORK> -e <SEARCH ENGINE> -o result.json
+```
+
 **View help**  
 ```python
 python sqliv.py --help
@@ -73,6 +79,7 @@ optional arguments:
 ![1](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/1.png)
 ![2](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/2.png)
 ![3](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/3.png)
+![4](https://raw.githubusercontent.com/Hadesy2k/sqliv/master/screenshots/4.png)
 
 ---
 
