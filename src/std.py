@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import time
+import json
 from termcolor import colored, cprint
 from terminaltables import SingleTable
 
@@ -53,6 +54,21 @@ def dump(array, filename):
     with open(filename, 'w') as output:
         for data in array:
             output.write(data + "\n")
+
+def dumpjson(array, filename='wtf.json'):
+    """save the scanned result into a file as"""
+    jsondata = {}
+
+    for index, result in enumerate(array):
+        jsondata[index] = {
+            'url': result[0].encode('utf-8'),
+            'db': result[1].encode('utf-8'),
+            'server': result[2].encode('utf-8'),
+            'lang': result[3].encode('utf-8')
+        }
+
+    with open(filename, 'w') as output:
+        output.write(json.dumps(jsondata, indent=4))
 
 def printserverinfo(data):
     """show vulnerable websites in table"""
