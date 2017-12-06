@@ -2,7 +2,7 @@
 # Ghost (github.com/Hadesy2k)
 # official.ghost@tuta.io
 
-
+import sys
 import argparse
 from urlparse import urlparse
 
@@ -71,6 +71,7 @@ def initparser():
     parser.add_argument("-p", dest="page", help="number of websites to look for in search engine", type=int, default=10, metavar="100")
     parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.example.com")
     parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
+    parser.add_argument('-o', dest="output", help="output result into json", type=str, metavar="result.json")
 
 
 if __name__ == "__main__":
@@ -175,8 +176,14 @@ if __name__ == "__main__":
         std.printserverinfo(table_data)
         print ""  # give space between two table
         std.normalprint(vulnerables)
-
+        exit(0)
 
     # print help message, if no parameter is provided
     else:
         parser.print_help()
+
+    # dump result into json if specified
+    if args.output != None:
+        std.dumpjson(table_data, args.output)
+        std.stdout("Dumped result into %s" % args.output)
+
