@@ -114,7 +114,7 @@ if __name__ == "__main__":
             exit(1)
 
         if os.path.isfile(EXEC_PATH):
-            print "executable file exists under " + FILE_PATH
+            print "executable file exists under " + EXEC_PATH
             exit(1)
 
         install(FILE_PATH, EXEC_PATH)
