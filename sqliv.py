@@ -71,6 +71,7 @@ def initparser():
     parser.add_argument("-t", dest="target", help="scan target website", type=str, metavar="www.example.com")
     parser.add_argument('-r', dest="reverse", help="reverse domain", action='store_true')
     parser.add_argument('-o', dest="output", help="output result into json", type=str, metavar="result.json")
+    parser.add_argument('-s', action='store_true', help="output search even if there are no results")
 
 
 if __name__ == "__main__":
@@ -93,10 +94,7 @@ if __name__ == "__main__":
         vulnerables = scanner.scan(websites)
 
         if not vulnerables:
-            std.stdout("you can still scan those websites by crawling or reverse domain.")
-            option = std.stdin("do you want save search result? [Y/N]", ["Y", "N"], upper=True)
-
-            if option == 'Y':
+            if args.s:
                 std.stdout("saved as searches.txt")
                 std.dump(websites, "searches.txt")
 
